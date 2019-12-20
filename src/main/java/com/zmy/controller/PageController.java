@@ -20,6 +20,11 @@ public class PageController {
 	public String index() {
 		return "index";
 	}
+	
+	@GetMapping("/categories")
+	public String categories() {
+		return "categories";
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {

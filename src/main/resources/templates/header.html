@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<!-- 所有页面共有头部（除了首页） -->
+	<div th:fragment="header">
+		<div class="header">
+			<div class="am-topbar" style="margin-bottom:0;">
+				<h1 class="am-topbar-brand">
+					<a href="/" class="blogTitleName">
+						<img src="./static/img/usericon.jpg" class="imgStyle">程序猿曾梦瑶
+					</a>
+				</h1>
+				<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" 
+				style="background-color:#ccc;border-color:white;border-radius:6px;" data-am-collapse="{target: '#doc-topbar-collapse'}">
+					<span class="am-sr-only">导航切换</span>
+					<span class="am-icon-bars"></span>
+				</button>
+				<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+					<ul class="am-nav am-nav-pills am-topbar-nav">
+						<li><a class="top_bar" href="/" style="cursor:pointer;"><span class="am-icon-home"></span>&nbsp;首页</a></li>
+						<li><a class="top_bar" href="/categories" style="cursor:pointer;"><span class="am-icon-th"></span>&nbsp;分类</a></li>
+						<li><a class="top_bar" href="/archives" style="cursor:pointer;"><span class="am-icon-archive"></span>&nbsp;归档</a></li>
+						<li><a class="top_bar" href="/tags" style="cursor:pointer;"><span class="am-icon-tags"></span>&nbsp;标签</a></li>
+						<li><a class="top_bar" href="/update" style="cursor:pointer;"><span class="am-icon-calendar-plus-o"></span>&nbsp;更新</a></li>
+						<li><a class="top_bar" href="/friendlylink" style="cursor:pointer;"><span class="am-icon-street-view"></span>&nbsp;友链</a></li>
+						<li><a class="top_bar" href="/aboutme" style="cursor:pointer;"><span class="am-icon-user"></span>&nbsp;关于我</a></li>
+					</ul>
+					
+					<div class="am-topbar-right reward am-show-sm-down">
+						<a href="/reward" style="text-decoration:none;">
+							<img class="am-circle" src="./static/img/favicon.png">
+							<span class="reward-word">公益募捐</span>
+						</a>
+					</div>
+					
+					<!-- 已经登录 -->
+					<div class="am-topbar-right" shiro:user="">
+						<div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
+							<button class="personalSpace am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>
+								<shiro:principal/><span class="am-icon-caret-down"></span>
+							</button>
+							<ul class="am-dropdown-content">
+								<li shiro:hasRole="ROLE_USER"><a href="/user">个人主页</a></li>
+								<li shiro:hasRole="ROLE_SUPERADMIN"><a href="/superadmin">网站后台管理</a></li>
+								<li><a href="/user" class="news">消息<span class="newsNum am-badge am-badge-danger"></span></a></li>
+								<li><a class="feedbackClick">反馈</a></li>
+								<hr style="margin:10px 0 5px 0;">
+								<li><a href="doLogout">退出登录</a></li>
+							</ul>
+						</div>
+					</div>
+					
+					<!-- 游客 -->
+					<div class="am-topbar-right" shiro:guest="">
+						<a href="/register" class="am-btn am-btn-primary am-topbar-btn am-btn-sm" style="color:white;">注册</a>
+					</div>
+					
+					<!-- 游客 -->
+					<div class="am-topbar-right" shiro:guest="">
+						<a href="/login" class="am-btn am-btn-primary am-topbar-btn am-btn-sm" style="color:white;">登录</a>
+					</div>
+					
+					<div class="am-topbar-right writing am-hide-md-down">
+						<a href="/editor" target="_blank" style="text-decoration:none;">
+							<img class="am-circle" src="./static/img/loading.gif" data-src="./static/img/writing.png">
+							<span class="write-word">写博客</span>
+						</a>
+					</div>
+					
+					<div class="am-topbar-right reward am-hide-sm-down">
+						<a href="/reward" style="text-decoration:none">
+							<img class="am-circle" src="./static/img/favicon.png">
+							<span class="reward-word">公益募捐</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</html>
