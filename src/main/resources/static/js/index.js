@@ -131,7 +131,7 @@ function renderNewLeaveWord(data) {
 	var newLeaveWordTitle = $("<div class='am-list-news-hd am-cf'>" +
 			"<a class='newLeaveWord'><h2 style='color:#110101;'>最新留言</h2></a>" +
 			"</div>");
-	listNews.apppend(newLeaveWordTitle);
+	listNews.append(newLeaveWordTitle);
 	var amListNewsBd = $("<div class='am-list-news-bd'></div>");
 	var ul = $("<ul class='fiveNewComments am-list'></ul>");
 	data['result'].map(function(item, index) {
@@ -284,14 +284,14 @@ function siteInfoAjax() {
 		success: function(data) {
 			var siteInfo = $(".site-info");
 			siteInfo.empty();
-			siteInfo.apppend("<h5 class='site-title'><i class='am-icon-info site-icon'></i><strong style='margin-left:15px;'>网站信息</strong></h5>");
+			siteInfo.append("<h5 class='site-title'><i class='am-icon-info site-icon'></i><strong style='margin-left:15px;'>网站信息</strong></h5>");
 			var siteDefault = $("<ul class='site-default'></ul>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>文章总数</span>：" + data['data']['articleNum'] + "篇</li>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>标签总数</span>：" + data['data']['tagsNum'] + "个</li>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>留言总数</span>：" + data['data']['leaveWordNum'] + "条</li>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>评论总数</span>：" + data['data']['commentNum'] + "条</li>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>网站最后更新</span>：<span class='siteUpdateTime'>" + siteLastUpdateTime + "</span></li>");
-			siteDefault.append("<li><i class='am-icon-file site-default-icon></i><span class='site-default-word'>网站运行天数</span>：<span class='siteRunningTime'></span></li>");
+			siteDefault.append("<li><i class='am-icon-file site-default-icon'></i><span class='site-default-word'>文章总数</span>：" + data['data']['articleNum'] + "篇</li>");
+			siteDefault.append("<li><i class='am-icon-tags site-default-icon'></i><span class='site-default-word'>标签总数</span>：" + data['data']['tagsNum'] + "个</li>");
+			siteDefault.append("<li><i class='am-icon-comments-o site-default-icon'></i><span class='site-default-word'>留言总数</span>：" + data['data']['leaveWordNum'] + "条</li>");
+			siteDefault.append("<li><i class='am-icon-commenting-o site-default-icon'></i><span class='site-default-word'>评论总数</span>：" + data['data']['commentNum'] + "条</li>");
+			siteDefault.append("<li><i class='am-icon-pencil-square site-default-icon'></i><span class='site-default-word'>网站最后更新</span>：<span class='siteUpdateTime'>" + siteLastUpdateTime + "</span></li>");
+			siteDefault.append("<li><i class='am-icon-calendar site-default-icon'></i><span class='site-default-word'>网站运行天数</span>：<span class='siteRunningTime'></span></li>");
 			siteInfo.append(siteDefault);
 		},
 		error: function() {

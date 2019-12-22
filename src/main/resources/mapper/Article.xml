@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+    <mapper namespace="com.zmy.mapper.ArticleMapper">
+    	<select id="findAllArticles" resultType="Article">
+    		select articleId, originalAuthor, articleTags, articleTitle, articleType,
+    		publishDate, articleCategories, articleTabloid, likes from article
+    	</select>
+    	<select id="findArticleTitleByArticleId" resultType="Article">
+    		select articleTitle, articleTabloid from article where articleId = #{articleId}
+    	</select>
+    	<select id="countArticle" resultType="int">
+    		select count(*) from article
+    	</select>
+    </mapper>

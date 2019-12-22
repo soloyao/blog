@@ -7,4 +7,5 @@ import com.zmy.pojo.User;
 @Mapper
 public interface UserMapper {
 	User getByName(String phone);
+	String findUsernameById(int id);
 }

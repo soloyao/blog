@@ -7,4 +7,7 @@
     	<select id="getByName" resultType="User">
 	        select * from user where phone = #{phone}
 	    </select>
+	    <select id="findUsernameById" resultType="String">
+	    	select username from user where id = #{id}
+	    </select>
     </mapper>

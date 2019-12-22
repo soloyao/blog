@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
 		return userMapper.getByName(phone);
 	}
 
+	@Override
+	public String findUsernameById(int id) {
+		return userMapper.findUsernameById(id);
+	}
+
 }
