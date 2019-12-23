@@ -21,4 +21,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findUsernameById(id);
 	}
 
+	@Override
+	public String getHeadPortraitUrl(int id) {
+		return userMapper.getHeadPortraitUrl(id);
+	}
+
+	@Override
+	public int findIdByUsername(String username) {
+		return userMapper.findIdByUsername(username);
+	}
+
 }

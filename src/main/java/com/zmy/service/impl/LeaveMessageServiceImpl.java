@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zmy.mapper.LeaveMessageMapper;
 import com.zmy.pojo.LeaveMessage;
+import com.zmy.service.LeaveMessageLikesRecordService;
 import com.zmy.service.LeaveMessageService;
 import com.zmy.service.UserService;
 import com.zmy.util.DataMap;
@@ -19,6 +20,7 @@ import com.zmy.util.DataMap;
 public class LeaveMessageServiceImpl implements LeaveMessageService {
 	@Autowired LeaveMessageMapper leaveMessageMapper;
 	@Autowired UserService userService;
+	@Autowired LeaveMessageLikesRecordService leaveMessageLikesRecordService;
 	
 	@Override
 	public DataMap findFiveNewLeaveMessage(int rows, int pageNum) {
@@ -57,6 +59,55 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 	@Override
 	public int leaveMessageNum() {
 		return leaveMessageMapper.leaveMessageNum();
+	}
+
+	@Override
+	public DataMap findAllLeaveMessage(String pageName, int pId, String username) {
+		List<LeaveMessage> leaveMessages = leaveMessageMapper.findAllLeaveMessage(pageName, pId);
+		JSONObject returnJson, replyJson;
+		JSONObject leaveMessageJson;
+		JSONArray replyJsonArray;
+		JSONArray leaveMessageJsonArray = new JSONArray();
+		List<LeaveMessage> leaveMessageReplies;
+		
+		returnJson = new JSONObject();
+		
+		for (LeaveMessage leaveMessage : leaveMessages) {
+			leaveMessageJson = new JSONObject();
+			leaveMessageJson.put("id", leaveMessage.getId());
+			leaveMessageJson.put("answerer", userService.findUsernameById(leaveMessage.getAnswererId()));
+			leaveMessageJson.put("leaveMessageDate", leaveMessage.getLeaveMessageDate());
+			leaveMessageJson.put("likes", leaveMessage.getLikes());
+			leaveMessageJson.put("avatarImgUrl", userService.getHeadPortraitUrl(leaveMessage.getAnswererId()));
+			leaveMessageJson.put("leaveMessageContent", leaveMessage.getLeaveMessageContent());
+			if (null == username) {
+				leaveMessageJson.put("isLiked", 0);
+			} else {
+				if (!leaveMessageLikesRecordService.isLiked(pageName, leaveMessage.getId(), userService.findIdByUsername(username))) {
+					leaveMessageJson.put("isLiked", 0);
+				} else {
+					leaveMessageJson.put("isLiked", 1);
+				}
+			}
+			
+			leaveMessageReplies = leaveMessageMapper.findLeaveMessageReplyByPageNameAndPid(pageName, pId);
+			replyJsonArray = new JSONArray();
+			for (LeaveMessage reply : leaveMessageReplies) {
+				replyJson = new JSONObject();
+				replyJson.put("id", reply.getId());
+				replyJson.put("answerer", userService.findUsernameById(reply.getAnswererId()));
+				replyJson.put("respondent", userService.findUsernameById(reply.getRespondentId()));
+				replyJson.put("leaveMessageDate", reply.getLeaveMessageDate());
+				replyJson.put("leaveMessageContent", reply.getLeaveMessageContent());
+				
+				replyJsonArray.add(replyJson);
+			}
+			leaveMessageJson.put("replies", replyJsonArray);
+			leaveMessageJsonArray.add(leaveMessageJson);
+		}
+		returnJson.put("result", leaveMessageJsonArray);
+		
+		return DataMap.success().setData(returnJson);
 	}
 
 }

@@ -11,4 +11,7 @@ public interface ArticleMapper {
 	List<Article> findAllArticles();
 	Article findArticleTitleByArticleId(long articleId);
 	int countArticle();
+	int countArticleCategoryByCategory(String category);
+	List<Article> findAllArticlePartInfo();
+	List<Article> findArticleByCategory(String category);
 }

@@ -3,6 +3,8 @@ package com.zmy.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,19 @@ public class IndexController {
 	@Autowired LeaveMessageService leaveMessageService;
 	@Autowired TagService tagService;
 	
-	
+	/**
+	 * 是否登录
+	 * @return
+	 */
+	@GetMapping("/isLogin")
+	public String isLogin() {
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.isAuthenticated()) {
+			return JsonResult.success().toJSON();
+		} else {
+			return JsonResult.fail(CodeType.USER_NOT_LOGIN).toJSON();
+		}
+	}
 	
 	/**
 	 * 分页获取当前页文章

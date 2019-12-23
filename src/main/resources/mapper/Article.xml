@@ -14,4 +14,16 @@
     	<select id="countArticle" resultType="int">
     		select count(*) from article
     	</select>
+    	<select id="countArticleCategoryByCategory" resultType="int">
+    		select count(*) from article where articleCategories = #{category}
+    	</select>
+    	<select id="findAllArticlePartInfo" resultType="Article">
+    		select articleId, originalAuthor, articleTitle, articleTags, articleType,
+    		articleCategories, publishDate from article order by id desc
+    	</select>
+    	<select id="findArticleByCategory" resultType="Article">
+    		select articleId, originalAuthor, articleTitle, articleTags, articleType,
+    		articleCategories, publishDate from article where articleCategories = #{category}
+    		order by id desc
+    	</select>
     </mapper>

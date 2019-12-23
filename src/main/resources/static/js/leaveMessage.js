@@ -24,7 +24,7 @@ function renderLeaveMessage(data) {
 					"</div>");
 			var amUSm10 = $("<div class='am-u-sm-10 am-u-lg-11'></div>");
 			amUSm10.append("<div class='visitorInfo'>" +
-					"<span class='visitorFloor'>#" + (item['result'].length - index) + "楼</span>" +
+					"<span class='visitorFloor'>#" + (data['result'].length - index) + "楼</span>" +
 					"<span class='visitorName'>" + item['answerer'] + "</span>" +
 					"<span class='visitorPublishDate'>" + item['leaveMessageDate'] + "</span>" +
 					"</div>" +
@@ -45,7 +45,7 @@ function renderLeaveMessage(data) {
 			var subComment = $("<div class='sub-comment'></div>");
 			var subCommentList = $("<div class='sub-comment-list'></div>");
 			var visitorReplies = $("<div class='visitorReplies'></div>");
-			item['replies'].map(function(ind, it) {
+			item['replies'].map(function(it, ind) {
 				var visitorReply = $("<div id='p" + it['id'] + "' class='visitorReply'></div>");
 				var visitorReplyWords = $("<div class='visitorReplyWords'>" +
 						"<a class='answerer'>" + it['answerer'] + "</a>：<a class='respondent'>@" + it['respondent'] + " </a>" + it['leaveMessageContent'] +
@@ -62,7 +62,7 @@ function renderLeaveMessage(data) {
 			var moreComment = $("<div class='more-comment'><a><i class='moreComment am-icon-edit'> 添加新评论</i></a></div>");
 			subCommentList.append(visitorReplies);
 			subCommentList.append(moreComment);
-			if (it['replies'].length != 0) {
+			if (item['replies'].length != 0) {
 				subComment.append(subCommentList);
 			}
 			subComment.append($("<div class='reply-sub-comment-list am-animation-slide-bottom'>" +
@@ -109,6 +109,33 @@ function renderLeaveMessage(data) {
 					$this.parent().parent().parent().find($(".reply-sub-comment-list")).find($(".replyWordTextaret")).focus();
 					
 					respondent = $this.parent().parent().prev().prev().find(".visitorName").html();
+				}
+			},
+			error: function() {
+			}
+		});
+	});
+	
+	//添加新评论显示评论框
+	$(".moreComment").click(function() {
+		var $this = $(this);
+		$.ajax({
+			type: "get",
+			url: "/isLogin",
+			dataType: "json",
+			async: false,
+			data: null,
+			success: function(data) {
+				if (data['status'] == 101) {
+					$.get("/toLogin", function(data, status, xhr) {
+						window.location.replace("/login");
+					});
+				} else {
+					$this.parent().parent().parent().next().find($('.replyWordTextarea')).val('');
+					$this.parent().parent().parent().next().css("display","block");
+					$this.parent().parent().parent().next().find($('.replyWordTextarea')).focus();
+					
+					respondent = $this.parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').html();
 				}
 			},
 			error: function() {
@@ -227,5 +254,143 @@ function renderLeaveMessage(data) {
 		var $this = $(this);
 		var respondentId = $this.parent().parent().parent().parent().parent().attr("id");
 		var pageName = window.location.pathname.substring(1);
+		$.ajax({
+			type: "get",
+			url: "/addLeaveMessageLike",
+			dataType: "json",
+			data: {
+				pageName: pageName,
+				respondentId: respondentId
+			},
+			success: function(data) {
+				if (data['status'] == 101) {
+					$.get("/toLogin", function(data, status, xhr) {
+						window.location.replace("/login");
+					});
+				} else if (data['status'] == 802) {
+					
+				} else {
+					$this.find("span").html(data['data']);
+					$.tipBox({
+						obj: $this,
+						str: "+1",
+						callback: function() {
+						}
+					});
+					niceIn($this);
+					$this.removeClass("fa-thumbs-o-up");
+					$this.addClass("fa-thumbs-up");
+					$this.addClass("text-danger");
+				}
+			},
+			error: function() {
+				alert("点赞失败");
+			}
+		});
 	});
+}
+
+$.ajax({
+	type: "get",
+	url: "/getPageLeaveMessage",
+	dataType: "json",
+	data: {
+		pageName: window.location.pathname.substring(1)
+	},
+	success: function(data) {
+		if (data['status'] == 101) {
+			$.get("/toLogin", function(data, status, xhr) {
+				window.location.replace("/login");
+			});
+		} else {
+			renderLeaveMessage(data['data']);
+		}
+	},
+	error: function() {
+	}
+});
+
+$("#toLogin").click(function() {
+	$.get("/toLogin", function(data, status, xhr) {
+		window.location.replace("/login");
+	});
+});
+
+//客官，来说两句吧
+$("#commentBtn").click(function() {
+	var leaveMessageContent = $("#comment").val();
+	var url = window.location.pathname;
+	leaveMessageContent = $.trim(leaveMessageContent);
+	if (leaveMessageContent == "") {
+		alert("客官，你还没说两句呢！");
+	} else {
+		$.ajax({
+			type: "post",
+			url: "/publishLeaveMessage",
+			dataType: "json",
+			data: {
+				leaveMessageContent: leaveMessageContent,
+				pageName: url.substring(1)
+			},
+			success: function(data) {
+				if (data['status'] == 101) {
+					$.get("/toLogin", function(data, status, xhr) {
+						window.location.replace("/login");
+					});
+				} else {
+					renderLeaveMessage(data['data']);
+				}
+			},
+			error: function() {
+				alert("发表失败！");
+			}
+		});
+	}
+});
+
+//文章点赞
+(function ($) {
+    $.extend({
+        tipsBox: function (options) {
+            options = $.extend({
+                obj: null,  //jq对象，要在那个html标签上显示
+                str: "+1",  //字符串，要显示的内容;也可以传一段html，如: "<b style='font-family:Microsoft YaHei;'>+1</b>"
+                startSize: "12px",  //动画开始的文字大小
+                endSize: "30px",    //动画结束的文字大小
+                interval: 600,  //动画时间间隔
+                color: "red",    //文字颜色
+                callback: function () {
+                }    //回调函数
+            }, options);
+            $("body").append("<span class='num'>" + options.str + "</span>");
+            var box = $(".num");
+            var left = options.obj.offset().left + options.obj.width() / 2;
+            var top = options.obj.offset().top - options.obj.height();
+            box.css({
+                "position": "absolute",
+                "left": left + "px",
+                "top": top + "px",
+                "z-index": 9999,
+                "font-size": options.startSize,
+                "line-height": options.endSize,
+                "color": options.color
+            });
+            box.animate({
+                "font-size": options.endSize,
+                "opacity": "0",
+                "top": top - parseInt(options.endSize) + "px"
+            }, options.interval, function () {
+                box.remove();
+                options.callback();
+            });
+        }
+    });
+})(jQuery);
+
+//点赞喜欢效果
+function niceIn(prop) {
+	prop.find("i").addClass("niceIn");
+	setTimeout(() => {
+		prop.find("i").removeClass("niceIn");
+	}, 1000);
 }

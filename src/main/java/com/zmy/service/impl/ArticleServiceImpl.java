@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -71,6 +72,59 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public int countArticle() {
 		return articleMapper.countArticle();
+	}
+
+	@Override
+	public int countArticleCategoryByCategory(String category) {
+		return articleMapper.countArticleCategoryByCategory(category);
+	}
+
+	@Override
+	public DataMap findArticleByCategory(String category, int rows, int pageNum) {
+		List<Article> articles;
+		PageInfo<Article> pageInfo;
+		JSONArray articleJsonArray = new JSONArray();
+		PageHelper.startPage(pageNum, rows);
+		if (StringUtils.isEmpty(category)) {
+			articles = articleMapper.findAllArticlePartInfo();
+			category = "全部分类";
+		} else {
+			 articles = articleMapper.findArticleByCategory(category);
+		}
+		pageInfo = new PageInfo<Article>(articles);
+		
+		articleJsonArray = timeLineReturn(articleJsonArray, articles);
+		
+		JSONObject pageJson = new JSONObject();
+		pageJson.put("pageNum", pageInfo.getPageNum());
+		pageJson.put("pageSize", pageInfo.getPageSize());
+		pageJson.put("total", pageInfo.getTotal());
+		pageJson.put("pages", pageInfo.getPages());
+		pageJson.put("isFirstPage", pageInfo.isIsFirstPage());
+		pageJson.put("isLastPage", pageInfo.isIsLastPage());
+		
+		JSONObject json = new JSONObject();
+		json.put("result", articleJsonArray);
+		json.put("category", category);
+		json.put("pageInfo", pageJson);
+		
+		return DataMap.success().setData(json);
+	}
+	
+	private JSONArray timeLineReturn(JSONArray articleJsonArray, List<Article> articles) {
+		JSONObject articleJson;
+		for (Article article : articles) {
+			String[] tagsArray = StringAndArray.stringToArray(article.getArticleTags());
+			articleJson = new JSONObject();
+			articleJson.put("articleId", article.getArticleId());
+			articleJson.put("originalAuthor", article.getOriginalAuthor());
+			articleJson.put("articleTitle", article.getArticleTitle());
+			articleJson.put("articleCategories", article.getArticleCategories());
+			articleJson.put("publishDate", article.getPublishDate());
+			articleJson.put("articleTags", tagsArray);
+			articleJsonArray.add(articleJson);
+		}
+		return articleJsonArray;
 	}
 
 }

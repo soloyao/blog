@@ -10,4 +10,6 @@ import com.zmy.pojo.LeaveMessage;
 public interface LeaveMessageMapper {
 	List<LeaveMessage> findFiveNewLeaveWord();
 	int leaveMessageNum();
+	List<LeaveMessage> findAllLeaveMessage(String pageName, int pId);
+	List<LeaveMessage> findLeaveMessageReplyByPageNameAndPid(String pageName, int pId);
 }

@@ -74,23 +74,23 @@ function renderArticle(data) {
 					"<header class='article-header'>" +
 					"<h1 iteprop='name'><a class='article-title' href='" + item['thisArticleUrl'] + "' target='_blank'>" + item['articleTitle'] + "</a></h1>" +
 					"<div class='article-meta row'>" +
-					"<span class='articlleType am-badge am-badge-success'>" + item['articleType'] + "</span>" +
-					"<div class='articlePublishDate'><i class='am-icon-calendar'><a class='linkColor' href='/archives?archive=" + item['publishDate'] + "'>" + item['publishDate'] + "</a></i></div>" +
-					"<div class='originalAuthor'><i class='am-icon-user'>" + item['originalAuthor'] + "</i></div>" +
+					"<span class='articleType am-badge am-badge-success'>" + item['articleType'] + "</span>" +
+					"<div class='articlePublishDate'><i class='am-icon-calendar'><a class='linkColor' href='/archives?archive=" + item['publishDate'] + "'> " + item['publishDate'] + "</a></i></div>" +
+					"<div class='originalAuthor'><i class='am-icon-user'> " + item['originalAuthor'] + "</i></div>" +
 					"<div class='categories'>" +
-					"<i class='am-icon-folder'><a class='linkColor' href='/categories?category=" + item['articleCategories'] + "'>" + item['articleCategories'] + "</a></i>" +
+					"<i class='am-icon-folder'><a class='linkColor' href='/categories?category=" + item['articleCategories'] + "'> " + item['articleCategories'] + "</a></i>" +
 					"</div>" +
 					"</div>" +
 					"</header>" +
 					"<div class='article-entry'>" + item['articleTabloid'] + "</div>" +
-					"<div class='read-all'><a href='" + item['thisArticleUrl'] + "' target='_blank'>阅读全文<i class='am-icon-angle-double-right'></i></a></div>" +
+					"<div class='read-all'><a href='" + item['thisArticleUrl'] + "' target='_blank'>阅读全文 <i class='am-icon-angle-double-right'></i></a></div>" +
 					"<hr>" +
 					"<div class='article-tags'></div>" +
 					"</div>");
 			articles.append(center);
 			var articleTags = $(".article-tags");
 			for (var i = 0; i < item['articleTags'].length; i++) {
-				var articleTag = $("<i class='am-icon-tag'><a class='tag' href='/tags?tag=" + item['articleTags'][i] + "'>" + item['articleTags'][i] + "</a></i>");
+				var articleTag = $("<i class='am-icon-tag'><a class='tag' href='/tags?tag=" + item['articleTags'][i] + "'> " + item['articleTags'][i] + "</a></i>");
 				articleTags.eq(index).append(articleTag);
 			}
 		}

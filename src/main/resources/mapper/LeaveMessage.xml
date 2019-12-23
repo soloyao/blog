@@ -11,4 +11,12 @@
     	<select id="leaveMessageNum" resultType="int">
     		select count(*) from leave_message_record
     	</select>
+    	<select id="findAllLeaveMessage" resultType="LeaveMessage">
+    		select * from leave_message_record where pageName = #{pageName} and pId = #{pId}
+    		order by id desc
+    	</select>
+    	<select id="findLeaveMessageReplyByPageNameAndPid" resultType="LeaveMessage">
+    		select id, answererId, respondentId, leaveMessageDate, leaveMessageContent
+    		from leave_message_record where pageName = #{pageName} and pId = #{pId}
+    	</select>
     </mapper>
