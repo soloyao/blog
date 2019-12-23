@@ -24,11 +24,11 @@ public class LeaveMessageConroller {
 	@GetMapping("/getPageLeaveMessage")
 	public String getPageLeaveMessage(@RequestParam("pageName") String pageName) {
 		Subject subject = SecurityUtils.getSubject();
-		String username = null;
+		String phone = null;
 		if (subject.isAuthenticated()) {
-			username = (String) subject.getPrincipal();
+			phone = (String) subject.getPrincipal();
 		}
-		DataMap data = leaveMessageService.findAllLeaveMessage(pageName, 0, username);
+		DataMap data = leaveMessageService.findAllLeaveMessage(pageName, 0, phone);
 		return JsonResult.build(data).toJSON();
 	}
 }

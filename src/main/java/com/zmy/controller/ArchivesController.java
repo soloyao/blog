@@ -1,60 +1,50 @@
 package com.zmy.controller;
 
-import java.net.URLDecoder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zmy.constant.CodeType;
+import com.zmy.service.ArchiveService;
 import com.zmy.service.ArticleService;
-import com.zmy.service.CategoryService;
 import com.zmy.util.DataMap;
 import com.zmy.util.JsonResult;
 
 /**
- * @ClassName:CategoriesController
- * @Description:分类
+ * @ClassName:ArchivesController
+ * @Description:归档
  * @author:zmy(343722243@qq.com)
- * @date:2019年12月23日 下午3:21:16
+ * @date:2019年12月23日 下午3:21:22
  */
 @RestController
-public class CategoriesController {
-	@Autowired CategoryService categoryService;
+public class ArchivesController {
+	@Autowired ArchiveService archiveService;
 	@Autowired ArticleService articleService;
 	
 	/**
-	 * 获得所有分类名以及每个分类名的文章数目
+	 * 获得所有归档日期及每个归档日期的文章数目
 	 * @return
 	 */
-	@GetMapping("/findCategoriesNameAndArticleNum")
-	public String findCategoriesNameAndArticleNum() {
+	@GetMapping("/findArchiveNameAndArticleNum")
+	public String findArchiveNameAndArticleNum() {
 		try {
-			DataMap data = categoryService.findCategoriesNameAndArticleNum();
+			DataMap data = archiveService.findArchiveNameAndArticleNum();
 			return JsonResult.build(data).toJSON();
 		} catch (Exception e) {
 			return JsonResult.fail(CodeType.SERVER_EXCEPTION).toJSON();
 		}
 	}
 	
-	/**
-	 * 根据分类名称分页获取该分类下的文章
-	 * @param category
-	 * @param rows
-	 * @param pageNum
-	 * @return
-	 */
-	@GetMapping("/getCategoryArticle")
-	public String getCategoryArticle(@RequestParam("category") String category,
+	@GetMapping("getArchiveArticle")
+	public String getArchiveArticle(@RequestParam("archive") String archive,
 			@RequestParam("rows") String rows,
 			@RequestParam("pageNum") String pageNum) {
 		try {
-			DataMap data = articleService.findArticleByCategory(category, Integer.parseInt(rows), Integer.parseInt(pageNum));
+			DataMap data = articleService.findArticleByArchive(archive, Integer.parseInt(rows), Integer.parseInt(pageNum));
 			return JsonResult.build(data).toJSON();
 		} catch (Exception e) {
 			return JsonResult.fail(CodeType.SERVER_EXCEPTION).toJSON();
 		}
 	}
-	
 }

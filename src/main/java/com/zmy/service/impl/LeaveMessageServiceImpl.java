@@ -62,7 +62,7 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 	}
 
 	@Override
-	public DataMap findAllLeaveMessage(String pageName, int pId, String username) {
+	public DataMap findAllLeaveMessage(String pageName, int pId, String phone) {
 		List<LeaveMessage> leaveMessages = leaveMessageMapper.findAllLeaveMessage(pageName, pId);
 		JSONObject returnJson, replyJson;
 		JSONObject leaveMessageJson;
@@ -80,10 +80,10 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 			leaveMessageJson.put("likes", leaveMessage.getLikes());
 			leaveMessageJson.put("avatarImgUrl", userService.getHeadPortraitUrl(leaveMessage.getAnswererId()));
 			leaveMessageJson.put("leaveMessageContent", leaveMessage.getLeaveMessageContent());
-			if (null == username) {
+			if (null == phone) {
 				leaveMessageJson.put("isLiked", 0);
 			} else {
-				if (!leaveMessageLikesRecordService.isLiked(pageName, leaveMessage.getId(), userService.findIdByUsername(username))) {
+				if (!leaveMessageLikesRecordService.isLiked(pageName, leaveMessage.getId(), userService.findIdByPhone(phone))) {
 					leaveMessageJson.put("isLiked", 0);
 				} else {
 					leaveMessageJson.put("isLiked", 1);

@@ -10,5 +10,7 @@ public interface ArticleService {
 	Map<String, String> findArticleTitleByArticleId(long articleId);
 	int countArticle();
 	int countArticleCategoryByCategory(String category);
+	int countArticleArchiveByArchive(String archive);
 	DataMap findArticleByCategory(String category, int rows, int pageNum);
+	DataMap findArticleByArchive(String archive, int rows, int pageNum);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import com.zmy.pojo.Article;
 import com.zmy.service.ArticleService;
 import com.zmy.util.DataMap;
 import com.zmy.util.StringAndArray;
+import com.zmy.util.TimeUtil;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -111,6 +113,43 @@ public class ArticleServiceImpl implements ArticleService {
 		return DataMap.success().setData(json);
 	}
 	
+	@Override
+	public DataMap findArticleByArchive(String archive, int rows, int pageNum) {
+		List<Article> articles;
+		PageInfo<Article> pageInfo;
+		JSONArray articleJsonArray = new JSONArray();
+		PageHelper.startPage(pageNum, rows);
+		String showMonth = "hide";
+		if (!StringUtils.isEmpty(archive)) {
+			archive = TimeUtil.timeYearToWhippletree(archive);
+		}
+		if (StringUtils.isEmpty(archive)) {
+			articles = articleMapper.findAllArticlePartInfo();
+		} else {
+			articles = articleMapper.findArticleByArchive(archive);
+			showMonth = "show";
+		}
+		pageInfo = new PageInfo<Article>(articles);
+		
+		articleJsonArray = timeLineReturn(articleJsonArray, articles);
+		
+		JSONObject pageJson = new JSONObject();
+		pageJson.put("pageNum", pageInfo.getPageNum());
+		pageJson.put("pageSize", pageInfo.getPageSize());
+		pageJson.put("total", pageInfo.getTotal());
+		pageJson.put("pages", pageInfo.getPages());
+		pageJson.put("isFirstPage", pageInfo.isIsFirstPage());
+		pageJson.put("isLastPage", pageInfo.isIsLastPage());
+		
+		JSONObject json = new JSONObject();
+		json.put("result", articleJsonArray);
+		json.put("articleNum", articleMapper.countArticle());
+		json.put("pageInfo", pageJson);
+		json.put("showMonth", showMonth);
+		
+		return DataMap.success().setData(json);
+	}
+	
 	private JSONArray timeLineReturn(JSONArray articleJsonArray, List<Article> articles) {
 		JSONObject articleJson;
 		for (Article article : articles) {
@@ -125,6 +164,11 @@ public class ArticleServiceImpl implements ArticleService {
 			articleJsonArray.add(articleJson);
 		}
 		return articleJsonArray;
+	}
+
+	@Override
+	public int countArticleArchiveByArchive(String archive) {
+		return articleMapper.countArticleArchiveByArchive(archive);
 	}
 
 }

@@ -17,6 +17,9 @@
     	<select id="countArticleCategoryByCategory" resultType="int">
     		select count(*) from article where articleCategories = #{category}
     	</select>
+    	<select id="countArticleArchiveByArchive" resultType="int">
+    		select count(*) from article where publishDate like concat('%', #{archive}, '%')
+    	</select>
     	<select id="findAllArticlePartInfo" resultType="Article">
     		select articleId, originalAuthor, articleTitle, articleTags, articleType,
     		articleCategories, publishDate from article order by id desc
@@ -24,6 +27,11 @@
     	<select id="findArticleByCategory" resultType="Article">
     		select articleId, originalAuthor, articleTitle, articleTags, articleType,
     		articleCategories, publishDate from article where articleCategories = #{category}
+    		order by id desc
+    	</select>
+    	<select id="findArticleByArchive" resultType="Article">
+    		select articleId, originalAuthor, articleTitle, articleTags, articleType,
+    		articleCategories, publishDate from article where publishDate like concat('%', #{archive}, '%')
     		order by id desc
     	</select>
     </mapper>

@@ -13,7 +13,7 @@
 	    <select id="getHeadPortraitUrl" resultType="String">
 	    	select avatarImgUrl from user where id = #{id}
 	    </select>
-	    <select id="findIdByUsername" resultType="int">
-	    	select id from user where username = #{username}
+	    <select id="findIdByPhone" resultType="int">
+	    	select id from user where phone = #{phone}
 	    </select>
     </mapper>

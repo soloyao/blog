@@ -5,7 +5,10 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class BackController {
@@ -25,5 +28,29 @@ public class BackController {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@GetMapping("/index")
+	public ModelAndView index() {
+		ModelAndView mav = new ModelAndView("index");
+		return mav;
+	}
+	
+	@GetMapping("/categories")
+	public ModelAndView categories() {
+		ModelAndView mav = new ModelAndView("categories");
+		return mav;
+	}
+	
+	@GetMapping("/archives")
+	public ModelAndView archives() {
+		ModelAndView mav = new ModelAndView("archives");
+		return mav;
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login() {
+		ModelAndView mav = new ModelAndView("login");
+		return mav;
 	}
 }

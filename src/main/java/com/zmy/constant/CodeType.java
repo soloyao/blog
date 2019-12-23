@@ -2,7 +2,7 @@ package com.zmy.constant;
 
 /**
  * @ClassName:CodeType
- * @Description:状态返回吗
+ * @Description:状态返回码
  * @author:zmy(343722243@qq.com)
  * @date:2019年12月22日 上午10:46:09
  */

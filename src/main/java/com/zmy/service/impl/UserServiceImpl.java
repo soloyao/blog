@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int findIdByUsername(String username) {
-		return userMapper.findIdByUsername(username);
+	public int findIdByPhone(String phone) {
+		return userMapper.findIdByPhone(phone);
 	}
 
 }
