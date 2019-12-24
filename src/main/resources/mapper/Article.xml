@@ -34,4 +34,15 @@
     		articleCategories, publishDate from article where publishDate like concat('%', #{archive}, '%')
     		order by id desc
     	</select>
+    	<select id="findArticleByTag" resultType="Article">
+    		select articleId, originalAuthor, articleTitle, articleTags, articleType,
+    		articleCategories, publishDate from article where articleTags like concat('%', #{tag}, '%')
+    		order by id desc
+    	</select>
+    	<select id="getArticleByArticleId" resultType="Article">
+    		select * from article where articleId = #{articleId}
+    	</select>
+    	<select id="findArticleByArticleId" resultType="Article">
+    		select articleId, articleTitle from article where articleId = #{articleId}
+    	</select>
     </mapper>

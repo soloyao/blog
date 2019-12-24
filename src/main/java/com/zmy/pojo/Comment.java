@@ -12,16 +12,10 @@ public class Comment {
 	private long pId = 0;
 	private int answererId;
 	private int respondentId;
-	private String commmentDate;
+	private String commentDate;
 	private int likes = 0;
 	private String commentContent;
 	private int isRead = 1;
-	public int getRespondentId() {
-		return respondentId;
-	}
-	public void setRespondentId(int respondentId) {
-		this.respondentId = respondentId;
-	}
 	public long getId() {
 		return id;
 	}
@@ -46,11 +40,17 @@ public class Comment {
 	public void setAnswererId(int answererId) {
 		this.answererId = answererId;
 	}
-	public String getCommmentDate() {
-		return commmentDate;
+	public int getRespondentId() {
+		return respondentId;
 	}
-	public void setCommmentDate(String commmentDate) {
-		this.commmentDate = commmentDate;
+	public void setRespondentId(int respondentId) {
+		this.respondentId = respondentId;
+	}
+	public String getCommentDate() {
+		return commentDate;
+	}
+	public void setCommentDate(String commentDate) {
+		this.commentDate = commentDate;
 	}
 	public int getLikes() {
 		return likes;
@@ -70,7 +70,7 @@ public class Comment {
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
-	public Comment(long id, long articleId, long pId, int answererId, int respondentId, String commmentDate, int likes,
+	public Comment(long id, long articleId, long pId, int answererId, int respondentId, String commentDate, int likes,
 			String commentContent, int isRead) {
 		super();
 		this.id = id;
@@ -78,7 +78,7 @@ public class Comment {
 		this.pId = pId;
 		this.answererId = answererId;
 		this.respondentId = respondentId;
-		this.commmentDate = commmentDate;
+		this.commentDate = commentDate;
 		this.likes = likes;
 		this.commentContent = commentContent;
 		this.isRead = isRead;

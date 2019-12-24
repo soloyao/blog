@@ -10,4 +10,6 @@ import com.zmy.pojo.Comment;
 public interface CommentMapper {
 	List<Comment> findFiveNewComment();
 	int commentNum();
+	List<Comment> findCommentByArticleIdAndPid(long articleId, long pId);
+	List<Comment> findCommentByArticleIdAndPidNoOrder(long articleId, long pId);
 }

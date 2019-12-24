@@ -110,7 +110,7 @@ function renderNewComment(data) {
 	var ul = $("<ul class='fiveNewComments am-list'></ul>");
 	data['result'].map(function(item, index) {
 		var li = $("<li class='am-g am-list-item-dated'>" +
-				"<a class='newCommentTitle' target='_blank' href='/article/" + item['articleId'] + "#p" + item['id'] + "' class='am-list-item-hd' style='padding-bottom:5px;" +
+				"<a class='newCommentTitle' target='_blank' href='/article/" + item['articleId'] + "' class='am-list-item-hd' style='padding-bottom:5px;" +
 						" title='" + item['articleTitle'] + "''>" + item['articleTitle'] + "</a>" +
 				"<span class='am-list-date'>" + item['commentDate'] + "</span>" +
 				"<div class='new-comment-content' style='margin-bottom:5px;'>" + item['answerer'] + "：" + item['commentContent'] + "</div>" +
@@ -136,7 +136,7 @@ function renderNewLeaveWord(data) {
 	var ul = $("<ul class='fiveNewComments am-list'></ul>");
 	data['result'].map(function(item, index) {
 		var li = $("<li class='am-g am-list-item-dated'>" +
-				"<a class='newLeaveWordTitle' href='/" + item['pagePath'] + "#p" + item['id'] + "' title='" + item['leaveWordContent'] + "'>" + item['answerer'] + "：" + item['leaveWordContent'] + "</a>\n" +
+				"<a class='newLeaveWordTitle' href='/" + item['pagePath'] + "' title='" + item['leaveWordContent'] + "'>" + item['answerer'] + "：" + item['leaveWordContent'] + "</a>\n" +
 				"<span class='am-list-date'>" + item['leaveWordDate'] + "</span>" +
 				"</li>");
 		ul.append(li);

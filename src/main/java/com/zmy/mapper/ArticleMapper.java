@@ -16,4 +16,7 @@ public interface ArticleMapper {
 	List<Article> findAllArticlePartInfo();
 	List<Article> findArticleByCategory(String category);
 	List<Article> findArticleByArchive(String archive);
+	List<Article> findArticleByTag(String tag);
+	Article getArticleByArticleId(long articleId);
+	Article findArticleByArticleId(long articleId);
 }

@@ -11,4 +11,10 @@
     	<select id="commentNum" resultType="int">
     		select count(*) from comment_record
     	</select>
+    	<select id="findCommentByArticleIdAndPid" resultType="Comment">
+    		select * from comment_record where articleId = #{articleId} and pId = #{pId} order by id desc
+    	</select>
+    	<select id="findCommentByArticleIdAndPidNoOrder" resultType="Comment">
+    		select * from comment_record where articleId = #{articleId} and pId = #{pId}
+    	</select>
     </mapper>

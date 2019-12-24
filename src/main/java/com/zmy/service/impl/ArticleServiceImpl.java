@@ -14,8 +14,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zmy.constant.CodeType;
 import com.zmy.mapper.ArticleMapper;
 import com.zmy.pojo.Article;
+import com.zmy.service.ArticleLikesRecordService;
 import com.zmy.service.ArticleService;
 import com.zmy.util.DataMap;
 import com.zmy.util.StringAndArray;
@@ -24,6 +26,7 @@ import com.zmy.util.TimeUtil;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 	@Autowired ArticleMapper articleMapper;
+	@Autowired ArticleLikesRecordService articleLikesRecordService;
 	
 	@Override
 	public DataMap findAllArticles(String rows, String pageNo) {
@@ -150,6 +153,45 @@ public class ArticleServiceImpl implements ArticleService {
 		return DataMap.success().setData(json);
 	}
 	
+	@Override
+	public DataMap findArticleByTag(String tag, int rows, int pageNum) {
+		PageHelper.startPage(pageNum, rows);
+		List<Article> articles = articleMapper.findArticleByTag(tag);
+		PageInfo<Article> pageInfo = new PageInfo<Article>(articles);
+		JSONObject articleJson;
+		JSONArray articleJsonArray = new JSONArray();
+		//二次判断标签是否匹配
+		for (Article article : articles) {
+			String[] tagsArray = StringAndArray.stringToArray(article.getArticleTags());
+			for (String str : tagsArray) {
+				if (str.equals(tag)) {
+					articleJson = new JSONObject();
+					articleJson.put("articleId", article.getArticleId());
+					articleJson.put("originalAuthor", article.getOriginalAuthor());
+					articleJson.put("articleTitle", article.getArticleTitle());
+					articleJson.put("articleCategories", article.getArticleCategories());
+					articleJson.put("publishDate", article.getPublishDate());
+					articleJson.put("articleTags", tagsArray);
+					articleJsonArray.add(articleJson);
+				}
+			}
+		}
+		
+		JSONObject pageJson = new JSONObject();
+		pageJson.put("pageNum", pageInfo.getPageNum());
+		pageJson.put("pageSize", pageInfo.getPageSize());
+		pageJson.put("total", pageInfo.getTotal());
+		pageJson.put("pages", pageInfo.getPages());
+		pageJson.put("isFirstPage", pageInfo.isIsFirstPage());
+		pageJson.put("isLastPage", pageInfo.isIsLastPage());
+		
+		JSONObject returnJson = new JSONObject();
+		returnJson.put("result", articleJsonArray);
+		returnJson.put("tag", tag);
+		returnJson.put("pageInfo", pageJson);
+		return DataMap.success(CodeType.FIND_ARTICLE_BY_TAG).setData(returnJson);
+	}
+	
 	private JSONArray timeLineReturn(JSONArray articleJsonArray, List<Article> articles) {
 		JSONObject articleJson;
 		for (Article article : articles) {
@@ -169,6 +211,55 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public int countArticleArchiveByArchive(String archive) {
 		return articleMapper.countArticleArchiveByArchive(archive);
+	}
+
+	@Override
+	public DataMap getArticleByArticleId(long articleId, String phone) {
+		Article article = articleMapper.getArticleByArticleId(articleId);
+		if (article != null) {
+			Map<String, Object> dataMap = new HashMap<String, Object>(32);
+			Article lastArticle = articleMapper.findArticleByArticleId(article.getLastArticleId());
+			Article nextArticle = articleMapper.findArticleByArticleId(article.getNextArticleId());
+			dataMap.put("author", article.getAuthor());
+			dataMap.put("articleId", articleId);
+			dataMap.put("originalAuthor", article.getOriginalAuthor());
+			dataMap.put("articleTitle", article.getArticleTitle());
+			dataMap.put("publishDate", article.getPublishDate());
+			dataMap.put("updateDate", article.getUpdateDate());
+			dataMap.put("articleContent", article.getArticleContent());
+			dataMap.put("articleTags", StringAndArray.stringToArray(article.getArticleTags()));
+			dataMap.put("articleType", article.getArticleType());
+			dataMap.put("articleCategories", article.getArticleCategories());
+			dataMap.put("articleUrl", article.getArticleUrl());
+			dataMap.put("likes", article.getLikes());
+			if (phone == null) {
+				dataMap.put("isLiked", 0);
+			} else {
+				if (articleLikesRecordService.isLiked(articleId, phone)) {
+					dataMap.put("isLiked", 1);
+				} else {
+					dataMap.put("isLiked", 0);
+				}
+			}
+			if (lastArticle != null) {
+				dataMap.put("lastStatus", "200");
+				dataMap.put("lastArticleTitle", lastArticle.getArticleTitle());
+				dataMap.put("lastArticleUrl", "/article/" + lastArticle.getArticleId());
+			} else {
+				dataMap.put("lastStatus", "500");
+				dataMap.put("lastInfo", "无");
+			}
+			if (nextArticle != null) {
+				dataMap.put("nextStatus", "200");
+				dataMap.put("nextArticleTitle", nextArticle.getArticleTitle());
+				dataMap.put("nextArticleUrl", "/article/" + nextArticle.getArticleId());
+			} else {
+				dataMap.put("nextStatus", "500");
+				dataMap.put("nextInfo", "无");
+			}
+			return DataMap.success().setData(dataMap);
+		}
+		return DataMap.fail(CodeType.ARTICLE_NOT_EXIST);
 	}
 
 }

@@ -1,3 +1,4 @@
+//获取get请求路径的参数
 function getUrlParam(paraName) {
 	var url = document.location.toString();
 	var arrObj = url.split("?");
@@ -14,6 +15,14 @@ function getUrlParam(paraName) {
 	else {　　　　　　
 		return "";　　　　
 	}　
+}
+
+//获取文章后的文章ID
+function getArticleId() {
+	var url = document.location.toString();
+	var arrObj = url.split("article");
+	var articleId = arrObj[1].split("/")[1];
+	return articleId;
 }
 
 //失败消息盒

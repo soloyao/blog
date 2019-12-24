@@ -13,13 +13,13 @@
     <link rel="icon" type="image/x-icon" href="https://zhy-myblog.oss-cn-shenzhen.aliyuncs.com/static/img/favicon.ico">
     <link href="https://lib.baomitu.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
     <link href="https://lib.baomitu.com/font-awesome/5.8.0/css/fontawesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./static/css/all.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="stylesheet" href="./static/css/plugs_paging.css">
+    <link rel="stylesheet" href="/static/css/all.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/plugs_paging.css">
 
     <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://lib.baomitu.com/underscore.js/1.9.1/underscore-min.js"></script>
-    <script src="./static/js/lastUrl.js"></script>
+    <script src="/static/js/lastUrl.js"></script>
     <script src="https://lib.baomitu.com/amazeui/2.7.2/js/amazeui.min.js"></script>
 </head>
 <body>
@@ -40,7 +40,7 @@
 			<div class="am-topbar" style="margin-bottom:0;">
 				<h1 class="am-topbar-brand">
 					<a href="/" class="blogTitleName">
-						<img src="./static/img/usericon.jpg" class="imgStyle">程序猿曾梦瑶
+						<img src="/static/img/usericon.jpg" class="imgStyle">程序猿曾梦瑶
 					</a>
 				</h1>
 				<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" 
@@ -50,13 +50,13 @@
 				</button>
 				<div id="personal-card" class="am-dropdown am-show-md-down" data-am-dropdown style="float:right;">
 					<button id="personal-card-btn" class="am-btn am-btn-success am-dropdown-toggle" style="padding:0px;">
-						<img src="./static/img/weixin.jpg">
+						<img src="/static/img/weixin.jpg">
 						<span class="am-icon-caret-down"></span>
 					</button>
 					<div class="am-dropdown-content">
 						<div class="personal-card-show" style="text-align:center;">
 							<div class="personal-card-show-img">
-								<img src="./static/img/weixin.jpg">
+								<img src="/static/img/weixin.jpg">
 							</div>
 							<div class="personal-card-show-words">
 								<small style="font-size:13px;color:#808080ad;"><p>后海有树的院子</p><p>夏代有工的玉</p><p>此时此刻的云</p></small>
@@ -94,7 +94,7 @@
 										<div class="zmy-qq-weixin">
 											<div class="zmy-weixin-box">
 												<p>微信</p>
-												<img src="./static/img/weixin.jpg" class="weixin_code am-img-thumbnail am-radius">
+												<img src="/static/img/weixin.jpg" class="weixin_code am-img-thumbnail am-radius">
 											</div>
 										</div>
 									</div>
@@ -118,17 +118,17 @@
 						<li><a class="top_bar" href="/categories" style="cursor:pointer;"><span class="am-icon-th"></span>&nbsp;分类</a></li>
 						<li><a class="top_bar" href="/archives" style="cursor:pointer;"><span class="am-icon-archive"></span>&nbsp;归档</a></li>
 						<li><a class="top_bar" href="/tags" style="cursor:pointer;"><span class="am-icon-tags"></span>&nbsp;标签</a></li>
-						<li><a class="top_bar" href="/update" style="cursor:pointer;"><span class="am-icon-calendar-plus-o"></span>&nbsp;更新</a></li>
-						<li><a class="top_bar" href="/friendlylink" style="cursor:pointer;"><span class="am-icon-street-view"></span>&nbsp;友链</a></li>
-						<li><a class="top_bar" href="/aboutme" style="cursor:pointer;"><span class="am-icon-user"></span>&nbsp;关于我</a></li>
+						<!-- <li><a class="top_bar" href="/update" style="cursor:pointer;"><span class="am-icon-calendar-plus-o"></span>&nbsp;更新</a></li>
+						<li><a class="top_bar" href="/friendlylink" style="cursor:pointer;"><span class="am-icon-street-view"></span>&nbsp;友链</a></li> -->
+						<!-- <li><a class="top_bar" href="/aboutme" style="cursor:pointer;"><span class="am-icon-user"></span>&nbsp;关于我</a></li> -->
 					</ul>
 					
-					<div class="am-topbar-right reward am-show-sm-down">
+					<!-- <div class="am-topbar-right reward am-show-sm-down">
 						<a href="/reward" style="text-decoration:none;">
-							<img class="am-circle" src="./static/img/favicon.png">
+							<img class="am-circle" src="/static/img/favicon.png">
 							<span class="reward-word">公益募捐</span>
 						</a>
-					</div>
+					</div> -->
 					
 					<!-- 已经登录 -->
 					<div class="am-topbar-right" shiro:user="">
@@ -159,17 +159,17 @@
 					
 					<div class="am-topbar-right writing am-hide-md-down">
 						<a href="/editor" target="_blank" style="text-decoration:none;">
-							<img class="am-circle" src="./static/img/loading.gif" data-src="./static/img/writing.png">
+							<img class="am-circle" src="/static/img/loading.gif" data-src="/static/img/writing.png">
 							<span class="write-word">写博客</span>
 						</a>
 					</div>
 					
-					<div class="am-topbar-right reward am-hide-sm-down">
+					<!-- <div class="am-topbar-right reward am-hide-sm-down">
 						<a href="/reward" style="text-decoration:none">
-							<img class="am-circle" src="./static/img/favicon.png">
+							<img class="am-circle" src="/static/img/favicon.png">
 							<span class="reward-word">公益募捐</span>
 						</a>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -199,7 +199,7 @@
 							<div class="am-g">
 								<div class="am-u-sm-5">
 									<div class="img-title">
-										<img class="img" src="./static/img/loading.gif" data-src="./static/img/usericon.jpg">
+										<img class="img" src="/static/img/loading.gif" data-src="/static/img/usericon.jpg">
 									</div>
 								</div>
 								<div class="am-u-sm-7" style="padding:0 20px 0 0;">
@@ -242,7 +242,7 @@
 											<div class="zmy-qq-weixin">
 												<div class="zmy-weixin-box">
 													<p>微信</p>
-													<img src="./static/img/weixin.jpg" class="weixin_code am-img-thumbnail am-radius">
+													<img src="/static/img/weixin.jpg" class="weixin_code am-img-thumbnail am-radius">
 												</div>
 											</div>
 										</div>
@@ -476,7 +476,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="myStory">
+						<!-- <div class="myStory">
 							<div class="bg-myStory">
 								<div><a class="bg-myStory-a" href="/mystory">我的故事</a></div>
 							</div>
@@ -493,7 +493,7 @@
 								<div><a class="bg-myGirl-a" href="/myheart" target="_blank">藏心阁</a></div>
 							</div>
 							<div class="myStory-words">曾经的我，写给未来的自己</div>
-						</div>
+						</div> -->
 						<div class="tag-cloud">
 							<h3 class="widget-title">标签云</h3>
 							<div class="widget-tag-cloud">
@@ -519,8 +519,8 @@
 	    <div th:replace="other :: other"></div>
 	</div>
 	
-	<script src="./static/js/index.js"></script>
-	<script src="./static/js/all.js"></script>
-	<script src="./static/js/plugs_paging.js"></script>
+	<script src="/static/js/index.js"></script>
+	<script src="/static/js/all.js"></script>
+	<script src="/static/js/plugs_paging.js"></script>
 </body>
 </html>

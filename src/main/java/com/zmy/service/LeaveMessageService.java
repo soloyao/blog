@@ -8,5 +8,5 @@ import com.zmy.util.DataMap;
 public interface LeaveMessageService {
 	DataMap findFiveNewLeaveMessage(int rows, int pageNum);
 	int leaveMessageNum();
-	DataMap findAllLeaveMessage(String pageName, int pId, String username);
+	DataMap findAllLeaveMessage(String pageName, int pId, String phone);
 }
