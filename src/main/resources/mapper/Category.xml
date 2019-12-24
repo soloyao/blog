@@ -7,4 +7,7 @@
     	<select id="findCategoriesName" resultType="String">
     		select categoryName from categories
     	</select>
+    	<select id="countCategoriesNum" resultType="int">
+    		select count(*) from categories
+    	</select>
     </mapper>

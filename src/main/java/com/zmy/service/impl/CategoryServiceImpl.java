@@ -33,4 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return DataMap.success().setData(returnJson);
 	}
 
+	@Override
+	public int countCategoriesNum() {
+		return categoryMapper.countCategoriesNum();
+	}
+
 }

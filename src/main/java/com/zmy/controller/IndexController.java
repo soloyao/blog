@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zmy.constant.CodeType;
 import com.zmy.service.ArticleService;
+import com.zmy.service.CategoryService;
 import com.zmy.service.CommentService;
 import com.zmy.service.LeaveMessageService;
 import com.zmy.service.TagService;
@@ -31,6 +32,7 @@ public class IndexController {
 	@Autowired CommentService commentService;
 	@Autowired LeaveMessageService leaveMessageService;
 	@Autowired TagService tagService;
+	@Autowired CategoryService categoryService;
 	
 	/**
 	 * 是否登录
@@ -44,6 +46,19 @@ public class IndexController {
 		} else {
 			return JsonResult.fail(CodeType.USER_NOT_LOGIN).toJSON();
 		}
+	}
+	
+	/**
+	 * 获取首页右侧日志数、分类数、标签数
+	 * @return
+	 */
+	@GetMapping("/findArchivesCategoriesTagsNum")
+	public String findArchivesCategoriesTagsNum() {
+		Map<String, Integer> dataMap = new HashMap<String, Integer>(4);
+		dataMap.put("tagsNum", tagService.countTagsNum());
+		dataMap.put("categoriesNum", categoryService.countCategoriesNum());
+		dataMap.put("archivesNum", articleService.countArticle());
+		return JsonResult.success().data(dataMap).toJSON();
 	}
 	
 	/**
