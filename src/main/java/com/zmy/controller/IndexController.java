@@ -47,6 +47,7 @@ public class IndexController {
 			return JsonResult.fail(CodeType.USER_NOT_LOGIN).toJSON();
 		}
 	}
+	
 	/**
 	 * 获取首页右侧日志数、分类数、标签数
 	 * @return
