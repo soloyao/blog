@@ -37,6 +37,12 @@ public class BackController {
 		}
 	}
 	
+	@GetMapping("/superadmin")
+	public ModelAndView superadmin() {
+		ModelAndView mav = new ModelAndView("superadmin");
+		return mav;
+	}
+	
 	@GetMapping("/index")
 	public ModelAndView index() {
 		ModelAndView mav = new ModelAndView("index");
