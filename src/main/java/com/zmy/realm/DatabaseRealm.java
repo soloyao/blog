@@ -40,6 +40,7 @@ public class DatabaseRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo s = new SimpleAuthorizationInfo();
 		// 把通过service获取到的角色和权限放进去
 //		s.setStringPermissions(permissions);
+		System.out.println(roles);
 		s.setRoles(roles);
 		return s;
 	}

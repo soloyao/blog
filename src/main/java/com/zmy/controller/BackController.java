@@ -43,6 +43,12 @@ public class BackController {
 		return mav;
 	}
 	
+	@GetMapping("/editor")
+	public ModelAndView editor() {
+		ModelAndView mav = new ModelAndView("editor");
+		return mav;
+	}
+	
 	@GetMapping("/index")
 	public ModelAndView index() {
 		ModelAndView mav = new ModelAndView("index");

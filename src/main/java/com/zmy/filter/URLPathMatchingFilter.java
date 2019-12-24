@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -25,9 +26,8 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
 //		if(null==permissionService) 
 //			permissionService = SpringContextUtils.getContext().getBean(PermissionService.class);
 		
-		String requestURI = getPathWithinApplication(request);
-//		System.out.println("requestURI:" + requestURI);
-
+//		String requestURI = getPathWithinApplication(request);
+//
 //		Subject subject = SecurityUtils.getSubject();
 //		// 如果没有登录，就跳转到登录页面
 //		if (!subject.isAuthenticated()) {

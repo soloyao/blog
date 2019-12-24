@@ -45,7 +45,6 @@ public class ShiroConfiguration {
      */
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager){
-        System.out.println("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean  = new ShiroFilterFactoryBean();
 
         // 必须设置 SecurityManager
@@ -65,6 +64,10 @@ public class ShiroConfiguration {
         //配置映射关系
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/index", "anon");
+        
+        filterChainDefinitionMap.put("/superadmin", "roles[ROLE_SUPERADMIN]");
+        filterChainDefinitionMap.put("/editor", "roles[ROLE_USER]");
+        
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");
         filterChainDefinitionMap.put("/doLogout", "logout");;

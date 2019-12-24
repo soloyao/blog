@@ -99,7 +99,7 @@ function renderLeaveMessage(data) {
 			async: false,
 			data: null,
 			success: function(data) {
-				if (data['result'] == 101) {
+				if (data['status'] == 101) {
 					$.get("/toLogin", function(data, status, xhr) {
 						window.location.replace("/login");
 					});
