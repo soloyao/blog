@@ -45,4 +45,10 @@
     	<select id="findArticleByArticleId" resultType="Article">
     		select articleId, articleTitle from article where articleId = #{articleId}
     	</select>
+    	<update id="updateLikeByArticleId">
+    		update article set likes = likes + 1 where articleId = #{articleId}
+    	</update>
+    	<select id="findLikesByArticleId" resultType="int">
+    		select IFNULL(max(likes), 0) from article where articleId = #{articleId}
+    	</select>
     </mapper>

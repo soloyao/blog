@@ -8,4 +8,8 @@
     		select likeDate from leave_message_likes_record where pageName = #{pageName}
     		and pId = #{pId} and likerId = #{likerId}
     	</select>
+    	<insert id="save">
+    		insert into leave_message_likes_record(pageName, pId, likerId, likeDate)
+    		values(#{pageName}, #{pId}, #{likerId}, #{likeDate})
+    	</insert>
     </mapper>

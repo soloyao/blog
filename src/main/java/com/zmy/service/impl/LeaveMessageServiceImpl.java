@@ -1,6 +1,8 @@
 package com.zmy.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +11,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zmy.component.JavaScriptCheck;
+import com.zmy.constant.SiteOwner;
 import com.zmy.mapper.LeaveMessageMapper;
 import com.zmy.pojo.LeaveMessage;
 import com.zmy.service.LeaveMessageLikesRecordService;
 import com.zmy.service.LeaveMessageService;
 import com.zmy.service.UserService;
 import com.zmy.util.DataMap;
+import com.zmy.util.TimeUtil;
 
 @Service
 public class LeaveMessageServiceImpl implements LeaveMessageService {
@@ -78,7 +83,7 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 			leaveMessageJson.put("answerer", userService.findUsernameById(leaveMessage.getAnswererId()));
 			leaveMessageJson.put("leaveMessageDate", leaveMessage.getLeaveMessageDate());
 			leaveMessageJson.put("likes", leaveMessage.getLikes());
-			leaveMessageJson.put("avatarImgUrl", userService.getHeadPortraitUrl(leaveMessage.getAnswererId()));
+			leaveMessageJson.put("avatarImgUrl", userService.getHeadPortraitUrl(leaveMessage.getAnswererId()).trim());
 			leaveMessageJson.put("leaveMessageContent", leaveMessage.getLeaveMessageContent());
 			if (null == phone) {
 				leaveMessageJson.put("isLiked", 0);
@@ -90,7 +95,7 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 				}
 			}
 			
-			leaveMessageReplies = leaveMessageMapper.findLeaveMessageReplyByPageNameAndPid(pageName, pId);
+			leaveMessageReplies = leaveMessageMapper.findLeaveMessageReplyByPageNameAndPid(pageName, leaveMessage.getId());
 			replyJsonArray = new JSONArray();
 			for (LeaveMessage reply : leaveMessageReplies) {
 				replyJson = new JSONObject();
@@ -108,6 +113,46 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 		returnJson.put("result", leaveMessageJsonArray);
 		
 		return DataMap.success().setData(returnJson);
+	}
+
+	@Override
+	public void publishLeaveMessage(String leaveMessageContent, String pageName, String phone) {
+		String nowStr = TimeUtil.getFormatDateForFive();
+		leaveMessageContent = JavaScriptCheck.javaScriptCheck(leaveMessageContent);
+		LeaveMessage leaveMessage = new LeaveMessage(pageName, userService.findIdByPhone(phone), userService.findIdByPhone(SiteOwner.SITE_OWNER), nowStr, leaveMessageContent);
+		
+		if (leaveMessage.getAnswererId() == leaveMessage.getRespondentId()) {
+			leaveMessage.setIsRead(0);
+		}
+		leaveMessageMapper.save(leaveMessage);
+	}
+
+	@Override
+	public void publishLeaveMessageReply(LeaveMessage leaveMessage, String respondent) {
+		String nowStr = TimeUtil.getFormatDateForFive();
+		leaveMessage.setLeaveMessageDate(nowStr);
+		leaveMessage.setRespondentId(userService.findIdByUsername(respondent));
+		if (leaveMessage.getAnswererId() == leaveMessage.getRespondentId()) {
+			leaveMessage.setIsRead(0);
+		}
+		leaveMessageMapper.save(leaveMessage);
+	}
+
+	@Override
+	public DataMap leaveMessageNewReply(LeaveMessage leaveMessage, String answerer, String respondent) {
+		Map<String, Object> dataMap = new HashMap<>(4);
+        dataMap.put("answerer",answerer);
+        dataMap.put("respondent",respondent);
+        dataMap.put("leaveMessageContent",leaveMessage.getLeaveMessageContent());
+        dataMap.put("leaveMessageDate",leaveMessage.getLeaveMessageDate());
+        return DataMap.success().setData(dataMap);
+	}
+
+	@Override
+	public DataMap updateLikeByPageNameAndId(String pageName, int id) {
+		leaveMessageMapper.updateLikeByPageNameAndId(pageName, id);
+		int likes = leaveMessageMapper.findLikesByPageNameAndId(pageName, id);
+		return DataMap.success().setData(likes);
 	}
 
 }

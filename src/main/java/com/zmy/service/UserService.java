@@ -7,4 +7,6 @@ public interface UserService {
 	String findUsernameById(int id);
 	String getHeadPortraitUrl(int id);
 	int findIdByPhone(String phone);
+	int findIdByUsername(String username);
+	String findUsernameByPhone(String phone);
 }

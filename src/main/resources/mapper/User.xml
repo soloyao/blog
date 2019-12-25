@@ -16,4 +16,10 @@
 	    <select id="findIdByPhone" resultType="int">
 	    	select id from user where phone = #{phone}
 	    </select>
+	    <select id="findIdByUsername" resultType="int">
+	    	select id from user where username = #{username}
+	    </select>
+	    <select id="findUsernameByPhone" resultType="String">
+	    	select username from user where phone = #{phone}
+	    </select>
     </mapper>

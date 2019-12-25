@@ -262,4 +262,11 @@ public class ArticleServiceImpl implements ArticleService {
 		return DataMap.fail(CodeType.ARTICLE_NOT_EXIST);
 	}
 
+	@Override
+	public DataMap updateLikeByArticleId(long articleId) {
+		articleMapper.updateLikeByArticleId(articleId);
+		int likes = articleMapper.findLikesByArticleId(articleId);
+		return DataMap.success().setData(likes);
+	}
+
 }

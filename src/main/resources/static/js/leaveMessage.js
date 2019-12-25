@@ -4,8 +4,8 @@ function renderLeaveMessage(data) {
 	var commentBottom = $(".comment-bottom");
 	commentBottom.empty();
 	if (data['result'].length == 0) {
-		var comments = $("<div class='comments'><span class='noComment' style='color:black;'>还没有评论，快来抢沙发吧！</span></div>");
-		commentBottom.appennd(comments);
+		var comments = $("<div class='comments'><span class='noComment' style='color:black;'>还没有留言，快来抢沙发吧！</span></div>");
+		commentBottom.append(comments);
 	} else {
 		var articleComment = $("<div class='article-comment'></div>");
 		articleComment.append($("<div class='article-comment-top'>" +
@@ -159,9 +159,9 @@ function renderLeaveMessage(data) {
 					});
 				} else {
 					respondent = $this.parent().parent().prev().find($(".answerer")).html();
-					$this.parnet().parent().parent().parent().parent().next().css("display", "block");
-					$this.parnet().parent().parent().parent().parent().next().find($(".replyWordTextarea")).val("@" + respondent + " ");
-					$this.parnet().parent().parent().parent().parent().next().find($(".replyWordTextarea")).focus();
+					$this.parent().parent().parent().parent().parent().next().css("display", "block");
+					$this.parent().parent().parent().parent().parent().next().find($(".replyWordTextarea")).val("@" + respondent + " ");
+					$this.parent().parent().parent().parent().parent().next().find($(".replyWordTextarea")).focus();
 				}
 			}
 		});
@@ -200,17 +200,18 @@ function renderLeaveMessage(data) {
 					} else if (data['status'] == 801) {
 						alert("内容不能为空！");
 					} else {
+						console.log(data);
 						var sub_comment = $this.parent().parent().parent().parent();
 						var visitorReply = $("<div class='visitorReply'></div>");
 						var visitorReplyWords = $("<div class='visitorReplyWords'>" +
 								"<a class='answerer'>" + data['data']['answerer'] + "</a>：<a class='respondent'>@" + data['data']['respondent'] + "</a>" + data['data']['leaveMessageContent'] + "" +
 								"</div>");
 						var visitorReplyTime = $("<div class='visitorReplyTime'>" +
-								"<span class='visitorReplyTimeTime'>" + data['data']['leaveMessageData'] + "</span>" +
+								"<span class='visitorReplyTimeTime'>" + data['data']['leaveMessageDate'] + "</span>" +
 								"<a><i class='replyReply am-icon-comment-o'>&nbsp;&nbsp;回复</i></a>" +
 								"</div>");
 						visitorReply.append(visitorReplyWords);
-						visitorReply.append(visitorReplyTimeTime);
+						visitorReply.append(visitorReplyTime);
 						visitorReply.append("<hr data-am-widget='divider' style='' class='am-divider am-divider-dashed'>");
 						
 						if (sub_comment.find(".sub-comment-list").length > 0) {
@@ -271,7 +272,7 @@ function renderLeaveMessage(data) {
 					
 				} else {
 					$this.find("span").html(data['data']);
-					$.tipBox({
+					$.tipsBox({
 						obj: $this,
 						str: "+1",
 						callback: function() {

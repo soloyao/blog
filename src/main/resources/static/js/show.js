@@ -514,6 +514,14 @@ articleCommentAjax();
     });
 })(jQuery);
 
+//点赞喜欢效果
+function niceIn(prop) {
+	prop.find("i").addClass("niceIn");
+	setTimeout(() => {
+		prop.find("i").removeClass("niceIn");
+	}, 1000);
+}
+
 //喜欢按钮
 $(".likeBtn").click(function() {
 	var $this = $(this);

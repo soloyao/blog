@@ -65,8 +65,9 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/index", "anon");
         
-        filterChainDefinitionMap.put("/superadmin", "roles[ROLE_SUPERADMIN]");
-        filterChainDefinitionMap.put("/editor", "roles[ROLE_USER]");
+        filterChainDefinitionMap.put("/superadmin", "roles[ROLE_SUPERADMIN]"); //打开网页后台管理需要有ROLE_SUPERADMIN的权限
+        filterChainDefinitionMap.put("/editor", "roles[ROLE_USER]");//打开写博客页面需要有ROLE_USER的权限
+        filterChainDefinitionMap.put("/user", "roles[ROLE_USER]");//打开个人主页页面需要有ROLE_USER的权限
         
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/config/**", "anon");

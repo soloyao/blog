@@ -4,6 +4,10 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
     <mapper namespace="com.zmy.mapper.LeaveMessageMapper">
+    	<insert id="save">
+    		insert into leave_message_record(pageName, pId, answererId, respondentId, leaveMessageDate, likes, leaveMessageContent, isRead)
+    		values(#{pageName}, #{pId}, #{answererId}, #{respondentId}, #{leaveMessageDate}, #{likes}, #{leaveMessageContent}, #{isRead})
+    	</insert>
     	<select id="findFiveNewLeaveWord" resultType="LeaveMessage">
     		select id, pageName, answererId, leaveMessageDate, leaveMessageContent
     		from leave_message_record
@@ -18,5 +22,11 @@
     	<select id="findLeaveMessageReplyByPageNameAndPid" resultType="LeaveMessage">
     		select id, answererId, respondentId, leaveMessageDate, leaveMessageContent
     		from leave_message_record where pageName = #{pageName} and pId = #{pId}
+    	</select>
+    	<update id="updateLikeByPageNameAndId">
+    		update leave_message_record set likes = likes + 1 where pageName = #{pageName} and id = #{id}
+    	</update>
+    	<select id="findLikesByPageNameAndId" resultType="int">
+    		select IFNULL(max(likes), 0) from leave_message_record where pageName = #{pageName} and id = #{id}
     	</select>
     </mapper>

@@ -50,6 +50,12 @@ public class CommentLikesRecord {
 		this.likerId = likerId;
 		this.likeDate = likeDate;
 	}
+	public CommentLikesRecord(long articleId, int pId, int likerId, String likeDate) {
+        this.articleId = articleId;
+        this.pId = pId;
+        this.likerId = likerId;
+        this.likeDate = likeDate;
+    }
 	public CommentLikesRecord() {
 		super();
 	}

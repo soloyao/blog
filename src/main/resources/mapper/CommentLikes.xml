@@ -4,8 +4,12 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
     <mapper namespace="com.zmy.mapper.CommentLikesMapper">
-    	<select id="isLikes" resultType="CommentLikesRecord">
+    	<select id="isLiked" resultType="CommentLikesRecord">
     		select likeDate from comment_likes_record where articleId = #{articleId}
     		and pId = #{pId} and likerId = #{likerId}
     	</select>
+    	<insert id="save">
+    		insert into comment_likes_record(articleId, pId, likerId, likeDate)
+    		values(#{articleId}, #{pId}, #{likerId}, #{likeDate})
+    	</insert>
     </mapper>

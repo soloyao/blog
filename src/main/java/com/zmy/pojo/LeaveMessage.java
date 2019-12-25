@@ -70,18 +70,13 @@ public class LeaveMessage {
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
-	public LeaveMessage(int id, String pageName, int pId, int answererId, int respondentId, String leaveMessageDate,
-			int likes, String leaveMessageContent, int isRead) {
+	public LeaveMessage(String pageName, int answererId, int respondentId, String leaveMessageDate, String leaveMessageContent) {
 		super();
-		this.id = id;
 		this.pageName = pageName;
-		this.pId = pId;
 		this.answererId = answererId;
 		this.respondentId = respondentId;
 		this.leaveMessageDate = leaveMessageDate;
-		this.likes = likes;
 		this.leaveMessageContent = leaveMessageContent;
-		this.isRead = isRead;
 	}
 	public LeaveMessage() {
 		super();

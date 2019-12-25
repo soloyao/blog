@@ -12,4 +12,7 @@ public interface CommentMapper {
 	int commentNum();
 	List<Comment> findCommentByArticleIdAndPid(long articleId, long pId);
 	List<Comment> findCommentByArticleIdAndPidNoOrder(long articleId, long pId);
+	int save(Comment comment);
+	void updateLikeByArticleIdAndId(long articleId, long id);
+	int findLikesByArticleIdAndId(long articleId, long id);
 }

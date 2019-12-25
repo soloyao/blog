@@ -1,5 +1,8 @@
 package com.zmy.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class TimeUtil {
 	/**
 	 * 事件中的年转换为横杠
@@ -12,5 +15,15 @@ public class TimeUtil {
 		s.append("-");
 		s.append(str.substring(5, 7));
 		return String.valueOf(s);
+	}
+	
+	/**
+	 * 格式化日期
+	 * @return
+	 */
+	public static String getFormatDateForFive() {
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		return now.format(format);
 	}
 }

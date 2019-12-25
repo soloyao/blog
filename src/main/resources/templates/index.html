@@ -134,7 +134,7 @@
 					<div class="am-topbar-right" shiro:user="">
 						<div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
 							<button class="personalSpace am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>
-								<shiro:principal/><span class="am-icon-caret-down"></span>
+								<!-- <shiro:principal/> --><span th:text="${session.user}"></span><span class="am-icon-caret-down"></span>
 							</button>
 							<ul class="am-dropdown-content">
 								<li shiro:hasRole="ROLE_USER"><a href="/user">个人主页</a></li>

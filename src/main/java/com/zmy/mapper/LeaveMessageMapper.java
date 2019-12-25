@@ -12,4 +12,7 @@ public interface LeaveMessageMapper {
 	int leaveMessageNum();
 	List<LeaveMessage> findAllLeaveMessage(String pageName, int pId);
 	List<LeaveMessage> findLeaveMessageReplyByPageNameAndPid(String pageName, int pId);
+	void save(LeaveMessage leaveMessage);
+	void updateLikeByPageNameAndId(String pageName, int id);
+	int findLikesByPageNameAndId(String pageName, int id);
 }

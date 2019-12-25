@@ -19,4 +19,6 @@ public interface ArticleMapper {
 	List<Article> findArticleByTag(String tag);
 	Article getArticleByArticleId(long articleId);
 	Article findArticleByArticleId(long articleId);
+	void updateLikeByArticleId(long articleId);
+	int findLikesByArticleId(long articleId);
 }

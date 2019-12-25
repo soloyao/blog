@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zmy.mapper.CommentMapper;
 import com.zmy.pojo.Comment;
+import com.zmy.pojo.CommentLikesRecord;
 import com.zmy.service.ArticleService;
 import com.zmy.service.CommentLikesRecordService;
 import com.zmy.service.CommentService;
@@ -96,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
 			commentJsonObject.put("likes", comment.getLikes());
 			commentJsonObject.put("commentContent", comment.getCommentContent());
 			commentJsonObject.put("replies", replyJsonArray);
-			commentJsonObject.put("avatarImgUrl", userService.getHeadPortraitUrl(comment.getAnswererId()));
+			commentJsonObject.put("avatarImgUrl", userService.getHeadPortraitUrl(comment.getAnswererId()).trim());
 			
 			if (phone == null) {
 				commentJsonObject.put("isLiked", 0);
@@ -110,6 +111,21 @@ public class CommentServiceImpl implements CommentService {
 			commentJsonArray.add(commentJsonObject);
 		}
 		return DataMap.success().setData(commentJsonArray);
+	}
+
+	@Override
+	public void insertComment(Comment comment) {
+		if (comment.getAnswererId() == comment.getRespondentId()) {
+			comment.setIsRead(0);
+		}
+		commentMapper.save(comment);
+	}
+
+	@Override
+	public DataMap updateLikeByArticleIdAndId(long articleId, long id) {
+		commentMapper.updateLikeByArticleIdAndId(articleId, id);
+		int liked = commentMapper.findLikesByArticleIdAndId(articleId, id);
+		return DataMap.success().setData(liked);
 	}
 
 }

@@ -8,4 +8,8 @@
     		select likeDate from article_likes_record where articleId = #{articleId}
     		and likerId = #{likerId}
     	</select>
+    	<insert id="save">
+    		insert into article_likes_record(articleId, likerId, likeDate, isRead)
+    		values(#{articleId}, #{likerId}, #{likeDate}, #{isRead})
+    	</insert>
     </mapper>

@@ -9,8 +9,15 @@ package com.zmy.pojo;
 public class ArticleLikesRecord {
 	private long id;
 	private int likerId;
+	private long articleId;
 	private String likeDate;
 	private int isRead = 1;
+	public long getArticleId() {
+		return articleId;
+	}
+	public void setArticleId(long articleId) {
+		this.articleId = articleId;
+	}
 	public long getId() {
 		return id;
 	}
@@ -45,4 +52,9 @@ public class ArticleLikesRecord {
 	public ArticleLikesRecord() {
 		super();
 	}
+	public ArticleLikesRecord(long articleId, int likerId, String likeDate) {
+        this.articleId = articleId;
+        this.likerId = likerId;
+        this.likeDate = likeDate;
+    }
 }

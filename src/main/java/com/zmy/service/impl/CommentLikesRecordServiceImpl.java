@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zmy.mapper.CommentLikesMapper;
+import com.zmy.pojo.CommentLikesRecord;
 import com.zmy.service.CommentLikesRecordService;
 import com.zmy.service.UserService;
 
@@ -15,6 +16,11 @@ public class CommentLikesRecordServiceImpl implements CommentLikesRecordService 
 	@Override
 	public boolean isLiked(long articleId, long pId, String phone) {
 		return commentLikesMapper.isLiked(articleId, pId, userSerivice.findIdByPhone(phone)) != null;
+	}
+
+	@Override
+	public void insertCommentLikesRecord(CommentLikesRecord commentLikesRecord) {
+		commentLikesMapper.save(commentLikesRecord);
 	}
 
 }

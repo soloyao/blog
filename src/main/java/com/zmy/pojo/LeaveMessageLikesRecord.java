@@ -12,6 +12,12 @@ public class LeaveMessageLikesRecord {
 	private int pId;
 	private int likerId;
 	private String likeDate;
+	public LeaveMessageLikesRecord(String pageName, int pId, int likerId, String likeDate) {
+        this.pageName = pageName;
+        this.pId = pId;
+        this.likerId = likerId;
+        this.likeDate = likeDate;
+    }
 	public long getId() {
 		return id;
 	}

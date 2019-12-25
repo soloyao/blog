@@ -17,4 +17,14 @@
     	<select id="findCommentByArticleIdAndPidNoOrder" resultType="Comment">
     		select * from comment_record where articleId = #{articleId} and pId = #{pId}
     	</select>
+    	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    		insert into comment_record(articleId, pId, answererId, respondentId, commentDate, likes, commentContent, isRead)
+    		values(#{articleId}, #{pId}, #{answererId}, #{respondentId}, #{commentDate}, #{likes}, #{commentContent}, #{isRead})
+    	</insert>
+    	<update id="updateLikeByArticleIdAndId">
+    		update comment_record set likes = likes + 1 where articleId = #{articleId} and id = #{id}
+    	</update>
+    	<select id="findLikesByArticleIdAndId" resultType="int">
+    		select IFNULL(max(likes), 0) from comment_record where articleId = #{articleId} and id = #{id}
+    	</select>
     </mapper>

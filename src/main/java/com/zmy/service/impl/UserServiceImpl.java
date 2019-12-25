@@ -31,4 +31,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findIdByPhone(phone);
 	}
 
+	@Override
+	public int findIdByUsername(String username) {
+		return userMapper.findIdByUsername(username);
+	}
+
+	@Override
+	public String findUsernameByPhone(String phone) {
+		return userMapper.findUsernameByPhone(phone);
+	}
+
 }
