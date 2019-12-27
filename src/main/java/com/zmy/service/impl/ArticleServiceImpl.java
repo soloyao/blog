@@ -19,6 +19,9 @@ import com.zmy.mapper.ArticleMapper;
 import com.zmy.pojo.Article;
 import com.zmy.service.ArticleLikesRecordService;
 import com.zmy.service.ArticleService;
+import com.zmy.service.CommentLikesRecordService;
+import com.zmy.service.CommentService;
+import com.zmy.service.VisitorService;
 import com.zmy.util.DataMap;
 import com.zmy.util.StringAndArray;
 import com.zmy.util.TimeUtil;
@@ -27,6 +30,9 @@ import com.zmy.util.TimeUtil;
 public class ArticleServiceImpl implements ArticleService {
 	@Autowired ArticleMapper articleMapper;
 	@Autowired ArticleLikesRecordService articleLikesRecordService;
+	@Autowired VisitorService visitorService;
+	@Autowired CommentService commentService;
+	@Autowired CommentLikesRecordService commentLikesRecordService;
 	
 	@Override
 	public DataMap findAllArticles(String rows, String pageNo) {
@@ -267,6 +273,80 @@ public class ArticleServiceImpl implements ArticleService {
 		articleMapper.updateLikeByArticleId(articleId);
 		int likes = articleMapper.findLikesByArticleId(articleId);
 		return DataMap.success().setData(likes);
+	}
+
+	@Override
+	public DataMap getArticleManagement(int rows, int pageNum) {
+		PageHelper.startPage(pageNum, rows);
+		List<Article> articles = articleMapper.getArticleManagement();
+		PageInfo<Article> pageInfo = new PageInfo<Article>(articles);
+		JSONArray returnJsonArray = new JSONArray();
+		JSONObject returnJson = new JSONObject();
+		JSONObject articleJson;
+		for (Article article : articles) {
+			articleJson = new JSONObject();
+			articleJson.put("id", article.getId());
+			articleJson.put("articleId", article.getArticleId());
+			articleJson.put("originalAuthor", article.getOriginalAuthor());
+			articleJson.put("articleTitle", article.getArticleTitle());
+			articleJson.put("articleCategories", article.getArticleCategories());
+			articleJson.put("publishDate", article.getPublishDate());
+			String pageName = "article/" + article.getArticleId();
+			articleJson.put("visitorNum", visitorService.getNumByPageName(pageName));
+			
+			returnJsonArray.add(articleJson);
+		}
+		returnJson.put("result", returnJsonArray);
+		JSONObject pageJson = new JSONObject();
+		pageJson.put("pageNum",pageInfo.getPageNum());
+        pageJson.put("pageSize",pageInfo.getPageSize());
+        pageJson.put("total",pageInfo.getTotal());
+        pageJson.put("pages",pageInfo.getPages());
+        pageJson.put("isFirstPage",pageInfo.isIsFirstPage());
+        pageJson.put("isLastPage",pageInfo.isIsLastPage());
+
+        returnJson.put("pageInfo",pageJson);
+        
+        return DataMap.success().setData(returnJson);
+	}
+
+	@Override
+	public DataMap deleteArticle(long id) {
+		try {
+			Article deleteArticle = articleMapper.findAllArticleId(id);
+			articleMapper.updateLastOrNextId("lastArticleId", deleteArticle.getLastArticleId(), deleteArticle.getNextArticleId());
+			articleMapper.updateLastOrNextId("nextArticleId", deleteArticle.getNextArticleId(), deleteArticle.getLastArticleId());
+			//删除本篇文章
+			articleMapper.deleteByArticleId(deleteArticle.getArticleId());
+			//删除与该文章有关的所有文章点赞记录、文章评论、文章评论记录
+			commentService.deleteCommentByArticleId(deleteArticle.getArticleId());
+			commentLikesRecordService.deleteCommentLikesRecordByArticleId(deleteArticle.getArticleId());
+			articleLikesRecordService.deleteArticleLikesRecordByArticleId(deleteArticle.getArticleId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return DataMap.fail(CodeType.DELETE_ARTICLE_FAIL);
+		}
+		return DataMap.success();
+	}
+
+	@Override
+	public Article findArticleById(int id) {
+		return articleMapper.findArticleById(id);
+	}
+
+	@Override
+	public DataMap getDraftArticle(Article article, String[] articleTags, int articleGrade) {
+		Map<String, Object> dataMap = new HashMap<String, Object>(16);
+		dataMap.put("id", article.getId());
+		dataMap.put("articleTitle", article.getArticleTitle());
+		dataMap.put("articleType", article.getArticleType());
+		dataMap.put("articleCategories", article.getArticleCategories());
+		dataMap.put("articleUrl", article.getArticleUrl());
+		dataMap.put("originalAuthor", article.getOriginalAuthor());
+		dataMap.put("articleContent", article.getArticleContent());
+		dataMap.put("articleTags", articleTags);
+		dataMap.put("articleGrade", articleGrade);
+		return DataMap.success().setData(dataMap);
 	}
 
 }

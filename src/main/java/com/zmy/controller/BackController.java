@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,8 +57,12 @@ public class BackController {
 	 * @return
 	 */
 	@GetMapping("/editor")
-	public ModelAndView editor() {
+	public ModelAndView editor(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("editor");
+		String id = request.getParameter("id");
+		if (!StringUtils.isEmpty(id)) {
+			request.getSession().setAttribute("id", id);
+		}
 		return mav;
 	}
 	
@@ -117,7 +123,7 @@ public class BackController {
 		}
 		return mav;
 	}
-
+	
 	/**
 	 * 登录页面
 	 * @return

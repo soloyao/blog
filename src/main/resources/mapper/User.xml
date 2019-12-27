@@ -22,4 +22,7 @@
 	    <select id="findUsernameByPhone" resultType="String">
 	    	select username from user where phone = #{phone}
 	    </select>
+	    <select id="findRoleIdByUserId" resultType="Integer">
+	    	select Role_id from user_role where User_id = #{userId}
+	    </select>
     </mapper>

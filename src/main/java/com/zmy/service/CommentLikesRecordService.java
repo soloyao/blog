@@ -5,4 +5,5 @@ import com.zmy.pojo.CommentLikesRecord;
 public interface CommentLikesRecordService {
 	boolean isLiked(long articleId, long pId, String phone);
 	void insertCommentLikesRecord(CommentLikesRecord commentLikesRecord);
+	void deleteCommentLikesRecordByArticleId(long articleId);
 }

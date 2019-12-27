@@ -163,6 +163,21 @@
 		<!-- 消息盒子+反馈 -->
 		<div th:replace="other :: other"></div>
 		
+		<!-- 删除文章模态框 -->
+		<div class="am-modal am-modal-confirm" tabindex="-1" id="deleteAlter">
+			<div class="am-modal-dialog">
+				<div class="am-modal-hd">
+					删除文章
+				</div>
+				<div class="am-modal-bd">
+					你确定要删除吗？删除了就无法恢复了哟！
+				</div>
+				<div class="am-modal-footer">
+					<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+					<span class="sureArticleDeleteBtn am-modal-btn" data-am-modal-confirm>确定</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <script src="/static/js/all.js"></script>

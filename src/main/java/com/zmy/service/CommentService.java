@@ -10,4 +10,5 @@ public interface CommentService {
 	int commentNum();
 	void insertComment(Comment comment);
 	DataMap updateLikeByArticleIdAndId(long articleId, long pId);
+	void deleteCommentByArticleId(long articleId);
 }

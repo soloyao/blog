@@ -23,4 +23,9 @@ public class CommentLikesRecordServiceImpl implements CommentLikesRecordService 
 		commentLikesMapper.save(commentLikesRecord);
 	}
 
+	@Override
+	public void deleteCommentLikesRecordByArticleId(long articleId) {
+		commentLikesMapper.deleteCommentLikesRecordByArticleId(articleId);
+	}
+
 }

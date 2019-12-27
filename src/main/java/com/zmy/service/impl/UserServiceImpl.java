@@ -1,5 +1,7 @@
 package com.zmy.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String findUsernameByPhone(String phone) {
 		return userMapper.findUsernameByPhone(phone);
+	}
+
+	@Override
+	public boolean isSuperAdmin(String phone) {
+		int userId = userMapper.findIdByPhone(phone);
+		List<Integer> roleIds = userMapper.findRoleIdByUserId(userId);
+		for (Integer i : roleIds) {
+			if (i == 3) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

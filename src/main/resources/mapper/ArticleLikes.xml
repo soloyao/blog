@@ -12,4 +12,7 @@
     		insert into article_likes_record(articleId, likerId, likeDate, isRead)
     		values(#{articleId}, #{likerId}, #{likeDate}, #{isRead})
     	</insert>
+    	<delete id="deleteArticleLikesRecordByArticleId">
+    		delete from article_likes_record where articleId = #{articleId}
+    	</delete>
     </mapper>

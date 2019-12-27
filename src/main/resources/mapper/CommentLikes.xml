@@ -12,4 +12,7 @@
     		insert into comment_likes_record(articleId, pId, likerId, likeDate)
     		values(#{articleId}, #{pId}, #{likerId}, #{likeDate})
     	</insert>
+    	<delete id="deleteCommentLikesRecordByArticleId">
+    		delete from comment_likes_record where articleId = #{articleId}
+    	</delete>
     </mapper>

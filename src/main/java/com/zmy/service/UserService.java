@@ -9,4 +9,5 @@ public interface UserService {
 	int findIdByPhone(String phone);
 	int findIdByUsername(String username);
 	String findUsernameByPhone(String phone);
+	boolean isSuperAdmin(String phone);
 }

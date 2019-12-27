@@ -8,4 +8,5 @@ import com.zmy.pojo.ArticleLikesRecord;
 public interface ArticleLikesMapper {
 	ArticleLikesRecord isLiked(long articleId, int likerId);
 	void save(ArticleLikesRecord articleLikesRecord);
+	void deleteArticleLikesRecordByArticleId(long articleId);
 }

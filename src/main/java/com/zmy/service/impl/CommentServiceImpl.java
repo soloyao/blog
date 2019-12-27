@@ -128,4 +128,9 @@ public class CommentServiceImpl implements CommentService {
 		return DataMap.success().setData(liked);
 	}
 
+	@Override
+	public void deleteCommentByArticleId(long articleId) {
+		commentMapper.deleteCommentByArticleId(articleId);
+	}
+
 }

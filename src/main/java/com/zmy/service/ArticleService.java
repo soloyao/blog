@@ -16,4 +16,8 @@ public interface ArticleService {
 	DataMap findArticleByTag(String tag, int rows, int pageNum);
 	DataMap getArticleByArticleId(long articleId, String phone);
 	DataMap updateLikeByArticleId(long articleId);
+	DataMap getArticleManagement(int rows, int pageNum);
+	DataMap deleteArticle(long id);
+	Article findArticleById(int id);
+	DataMap getDraftArticle(Article article, String[] articleTags, int articleGrade);
 }

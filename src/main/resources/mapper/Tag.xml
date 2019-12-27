@@ -10,4 +10,7 @@
     	<select id="countTagsNum" resultType="int">
     		select count(*) from tags
     	</select>
+    	<select id="getTagsSizeByTagName" resultType="int">
+    		select tagSize from tags where tagName = #{tagName}
+    	</select>
     </mapper>

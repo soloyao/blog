@@ -23,4 +23,9 @@ public class ArticleLikesRecordServiceImpl implements ArticleLikesRecordService 
 		articleLikesMapper.save(articleLikesRecord);
 	}
 
+	@Override
+	public void deleteArticleLikesRecordByArticleId(long articleId) {
+		
+	}
+
 }

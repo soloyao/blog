@@ -27,4 +27,7 @@
     	<select id="findLikesByArticleIdAndId" resultType="int">
     		select IFNULL(max(likes), 0) from comment_record where articleId = #{articleId} and id = #{id}
     	</select>
+    	<delete id="deleteCommentByArticleId">
+    		delete from comment_record where articleId = #{articleId}
+    	</delete>
     </mapper>

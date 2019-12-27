@@ -10,4 +10,5 @@ import com.zmy.pojo.Tag;
 public interface TagMapper {
 	List<Tag> findTagsCloud();
 	int countTagsNum();
+	int getTagsSizeByTagName(String tagName);
 }

@@ -38,7 +38,7 @@ function dangerNotice(notice) {
 function successNotice(notice) {
 	$(".successNotice").html(notice);
 	$(".successNoticeAlert").html(notice);
-	var closeNoticeBox = setTimout(function() {
+	var closeNoticeBox = setTimeout(function() {
 		$(".successNoticeAlert").css("display", "none");
 	}, 3000);
 }

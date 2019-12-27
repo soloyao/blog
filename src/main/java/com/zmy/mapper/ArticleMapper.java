@@ -21,4 +21,9 @@ public interface ArticleMapper {
 	Article findArticleByArticleId(long articleId);
 	void updateLikeByArticleId(long articleId);
 	int findLikesByArticleId(long articleId);
+	List<Article> getArticleManagement();
+	void updateLastOrNextId(String lastOrNextStr, long updateId, long articleId);
+	Article findAllArticleId(long id);
+	void deleteByArticleId(long articleId);
+	Article findArticleById(int id);
 }

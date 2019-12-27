@@ -30,4 +30,9 @@ public class TagServiceImpl implements TagService {
 		return tagMapper.countTagsNum();
 	}
 
+	@Override
+	public int getTagsSizeByTagName(String tagName) {
+		return tagMapper.getTagsSizeByTagName(tagName);
+	}
+
 }

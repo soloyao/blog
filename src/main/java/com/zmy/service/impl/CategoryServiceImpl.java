@@ -38,4 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.countCategoriesNum();
 	}
 
+	@Override
+	public DataMap findCategoriesName() {
+		List<String> categoryNames = categoryMapper.findCategoriesName();
+		return DataMap.success().setData(categoryNames);
+	}
+
 }

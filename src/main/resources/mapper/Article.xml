@@ -51,4 +51,20 @@
     	<select id="findLikesByArticleId" resultType="int">
     		select IFNULL(max(likes), 0) from article where articleId = #{articleId}
     	</select>
+    	<select id="getArticleManagement" resultType="Article">
+    		select id, articleId, originalAuthor, articleTitle, articleCategories, publishDate from article order by id desc
+    	</select>
+    	<update id="updateLastOrNextId">
+    		update article set ${lastOrNextStr} = #{updateId} where articleId = #{articleId}
+    	</update>
+    	<select id="findAllArticleId" resultType="Article">
+    		select articleId, lastArticleId, nextArticleId from article where id = #{id}
+    	</select>
+    	<delete id="deleteByArticleId">
+    		delete from article where articleId = #{articleId}
+    	</delete>
+    	<select id="findArticleById" resultType="Article">
+    		select id, articleId, originalAuthor, articleTitle, articleContent, articleCategories, articleTags, articleType, articleUrl
+    		from article where id = #{id}
+    	</select>
     </mapper>
