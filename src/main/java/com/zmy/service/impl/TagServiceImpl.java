@@ -35,4 +35,14 @@ public class TagServiceImpl implements TagService {
 		return tagMapper.getTagsSizeByTagName(tagName);
 	}
 
+	@Override
+	public void addTags(String[] tags, int tagSize) {
+		for (String tag : tags) {
+			if (tagMapper.findIsExistByTagName(tag) == 0) {
+				Tag t = new Tag(tag, tagSize);
+				tagMapper.save(t);
+			}
+		}
+	}
+
 }

@@ -6,4 +6,5 @@ public interface TagService {
 	DataMap findTagsCloud();
 	int countTagsNum();
 	int getTagsSizeByTagName(String tagName);
+	void addTags(String[] tags, int tagSize);
 }

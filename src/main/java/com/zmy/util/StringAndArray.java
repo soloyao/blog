@@ -17,4 +17,21 @@ public class StringAndArray {
 		}
 		return array;
 	}
+	
+	/**
+     * 字符串数组拼接成字符串
+     * @param articleTags 字符串数组
+     * @return 拼接后的字符串
+     */
+    public static String arrayToString(String[] articleTags){
+        StringBuilder sb = new StringBuilder();
+        for(String s : articleTags){
+            if(sb.length() == 0){
+                sb.append(s.trim());
+            } else {
+                sb.append(",").append(s.trim());
+            }
+        }
+        return sb.toString();
+    }
 }

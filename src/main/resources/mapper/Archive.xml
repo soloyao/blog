@@ -7,4 +7,10 @@
     	<select id="findArchives" resultType="String">
     		select archiveName from archives order by id desc
     	</select>
+    	<select id="findArchiveNameByArchiveName" resultType="int">
+    		select IFNULL(max(id), 0) from archives where archiveName = #{archiveName}
+    	</select>
+    	<insert id="save">
+    		insert into archives(archiveName) values(#{archiveName})
+    	</insert>
     </mapper>

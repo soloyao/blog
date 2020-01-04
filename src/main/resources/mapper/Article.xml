@@ -57,6 +57,12 @@
     	<update id="updateLastOrNextId">
     		update article set ${lastOrNextStr} = #{updateId} where articleId = #{articleId}
     	</update>
+    	<update id="updateArticleLastId">
+    		update article set lastArticleId = #{lastArticleId} where articleId = #{articleId}
+    	</update>
+    	<update id="updateArticleNextId">
+    		update article set nextArticleId = #{nextArticleId} where articleId = #{articleId}
+    	</update>
     	<select id="findAllArticleId" resultType="Article">
     		select articleId, lastArticleId, nextArticleId from article where id = #{id}
     	</select>
@@ -67,4 +73,21 @@
     		select id, articleId, originalAuthor, articleTitle, articleContent, articleCategories, articleTags, articleType, articleUrl
     		from article where id = #{id}
     	</select>
+    	<select id="getArticleUrlById" resultType="Article">
+    		select articleId from article where id = #{id}
+    	</select>
+    	<update id="updateArticleById">
+    		update article set originalAuthor = #{originalAuthor}, articleTitle = #{articleTitle}, updateDate = #{updateDate}, articleContent = #{articleContent},
+    		articleTags = #{articleTags}, articleType = #{articleType}, articleCategories = #{articleCategories}, articleUrl = #{articleUrl},
+    		articleTabloid = #{articleTabloid} where id = #{id}
+    	</update>
+    	<select id="findEndArticleId" resultType="Article">
+    		select articleId from article order by id desc limit 1
+    	</select>
+    	<insert id="save">
+    		insert into article(articleId, author, originalAuthor, articleTitle, publishDate, updateDate, articleContent, articleTags, articleType, articleCategories,
+    		articleUrl, articleTabloid, likes, lastArticleId, nextArticleId)
+    		values(#{articleId}, #{author}, #{originalAuthor}, #{articleTitle}, #{publishDate}, #{updateDate}, #{articleContent}, #{articleTags}, #{articleType}, #{articleCategories},
+    		#{articleUrl}, #{articleTabloid}, #{likes}, #{lastArticleId}, #{nextArticleId})
+    	</insert>
     </mapper>

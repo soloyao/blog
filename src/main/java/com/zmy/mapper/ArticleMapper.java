@@ -23,7 +23,13 @@ public interface ArticleMapper {
 	int findLikesByArticleId(long articleId);
 	List<Article> getArticleManagement();
 	void updateLastOrNextId(String lastOrNextStr, long updateId, long articleId);
+	void updateArticleLastId(long lastArticleId, long articleId);
+	void updateArticleNextId(long nextArticleId, long articleId);
 	Article findAllArticleId(long id);
 	void deleteByArticleId(long articleId);
 	Article findArticleById(int id);
+	Article getArticleUrlById(int id);
+	void updateArticleById(Article article);
+	Article findEndArticleId();
+	void save(Article article);
 }

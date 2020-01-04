@@ -7,4 +7,7 @@
     	<select id="getVisitorNumByPageName" resultType="long">
     		select visitorNum from visitor where pageName = #{pageName}
     	</select>
+    	<insert id="save">
+    		insert into visitor(visitorNum, pageName) values(0, #{pageName})
+    	</insert>
     </mapper>

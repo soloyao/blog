@@ -23,4 +23,9 @@ public class VisitorServiceImpl implements VisitorService {
 		return visitorMapper.getVisitorNumByPageName(pageName);
 	}
 
+	@Override
+	public void insertVisitorArticlePage(String pageName) {
+		visitorMapper.save(pageName);
+	}
+
 }

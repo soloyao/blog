@@ -20,4 +20,7 @@ public interface ArticleService {
 	DataMap deleteArticle(long id);
 	Article findArticleById(int id);
 	DataMap getDraftArticle(Article article, String[] articleTags, int articleGrade);
+	DataMap updateArticleById(Article article);
+	DataMap insertArticle(Article article);
+	void updateArticleLastOrNextId(String lastOrNext, long lastOrNextArticleId, long articleId);
 }

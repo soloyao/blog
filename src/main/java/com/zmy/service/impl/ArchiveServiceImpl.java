@@ -35,4 +35,12 @@ public class ArchiveServiceImpl implements ArchiveService {
 		return DataMap.success().setData(returnJson);
 	}
 
+	@Override
+	public void addArchiveName(String archiveName) {
+		int archiveNameIsExist = archiveMapper.findArchiveNameByArchiveName(archiveName);
+		if (archiveNameIsExist == 0) {
+			archiveMapper.save(archiveName);
+		}
+	}
+
 }

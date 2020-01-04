@@ -168,6 +168,128 @@ $(function() {
 	var i = 0;
 	var $wrapper = $(".tag");
 	var appendPanel = function(index) {
-		var panel = $("<div></div>");
+		var panel = $("<div style='display:inline-block;'><p class='tag-name' contenteditable='true'></p>" +
+				"<i class='am-icon-times removeTag' style='color:#ccc;'></i></div>");
+		$wrapper.append(panel);
+		$(".tag-name").click(function() {
+			$(this).focus();
+		});
 	}
+	addTagsBtn.on("click", function() {
+		if (i >= 4) {
+			addTagsBtn.attr("disabled", "disabled");
+		}
+		var value = $(".tag-name").eq(i - 1).html();
+		if (value != "") {
+			appendPanel(i);
+			i++;
+		}
+	});
+	
+	$(".tag").on("click", ".removeTag", function() {
+		$(this).parent().remove();
+		i--;
+		if (i <= 4) {
+			addTagsBtn.removeAttr("disabled");
+		}
+	});
+});
+
+//显示文章作者
+var articleType = $("#select-type");
+$("#select-type").blur(function() {
+	if (articleType.val() == "转载") {
+		$("#originalAuthorHide").show();
+		$(".articleUrlHide").show();
+	} else if (articleType.val() == "原创") {
+		$("#originalAuthorHide").hide();
+		$(".articleUrlHide").hide();
+	}
+});
+
+//发表博客成功后显示的内容
+function publishSuccessPutIn(data) {
+	$("#removeDiv").html("");
+	var sec = $("<div id='all'></div>");
+	var success = $("<div class='success'></div>");
+	var successBox = $("<div class='success-box'></div>");
+	var successArticleTitle = $("<div class='successArticleTitle'><span>" + data["articleTitle"] + "</span></div>");
+	var successWord = $("<div class='success-word'><p><i class='am-success am-icon-square-o' style='color:#5eb95e;'></i> 发布成功</p></div>");
+	var successTimeAndUser = $("<div></div>");
+}
+
+//发表博客
+var surePublishBtn = $(".surePublishBtn");
+var articleCategories = $("#select-categories");
+var articleGrade = $("#select-grade");
+var originalAuthor = $("#originalAuthor");
+var articleUrl = $("#articleUrl");
+surePublishBtn.click(function() {
+	var tagNum = $(".tag").find(".tag-name").length;
+	var articleTagsValue = [];
+	for (var j = 0; j < tagNum; j++) {
+		articleTagsValue[j] = $(".tag-name").eq(j).html();//文章标签
+	}
+	var articleTypeValue = articleType.val();//文章类型（转载，原创）
+	var articleCategoriesValue = articleCategories.val();//文章分类
+	var articleGradeValue = articleGrade.val();//文章等级
+	var originalAuthorValue = originalAuthor.val();//文章转载原作者
+	var articleUrlValue = articleUrl.val();//文章转载原链接
+	if (articleTagsValue.length == 0 || articleTagsValue[tagNum - 1] == "") {
+		$(".notice-box-tags").show();
+	} else if (articleTypeValue == "choose") {
+		$(".notice-box-type").show();
+	} else if (articleCategoriesValue == "choose") {
+		$(".notice-box-categories").show();
+	} else if (articleGradeValue == "choose") {
+		$(".notice-box-grade").show();
+	} else if (articleType.val() == "转载" && originalAuthorValue == "") {
+		$(".notice-box-originalAuthor").show();
+	} else if (articleType.val() == "转载" && articleUrlValue == "") {
+		$(".notice-box-url").show();
+	} else {
+		$.ajax({
+			type: "post",
+			url: "/publishArticle",
+			traditional: true,
+			data: {
+				id: $(".surePublishBtn").attr("id"),
+				articleTitle: articleTitle.val(),
+				articleContent: articleContent.val(),
+				articleTagsValue: articleTagsValue,
+				articleType: articleTypeValue,
+				articleCategories: articleCategoriesValue,
+				articleGrade: articleGradeValue,
+				originalAuthor: originalAuthorValue,
+				articleUrl: articleUrlValue,
+				articleHtmlContent: testEditor.getHTML()
+			},
+			contentType: "application/x-www-form-urlencoded; charset=utf-8",
+			dataType: "json",
+			success: function(data) {
+				if (data['status'] == 101) {
+					window.removeEventListener('beforeunload',fnClose);
+                    $.get("/toLogin",function(data,status,xhr){
+                        window.location.replace("/login");
+                    });
+				} else if (data['status'] == 205) {
+					alert("发布失败了，都叫你不要发布了，不听嘛");
+				} else if (data['status'] == 206) {
+					alert("服务器异常");
+				} else {
+					$("#my-alert").modal("close");
+					window.removeEventListener('beforeunload',fnClose);
+                    publishSuccessPutIn(data['data']);
+				}
+			},
+			error: function() {
+				alert("发表博客异常");
+			}
+		});
+	}
+	
+	//定时关闭错误提示框
+	var closeNoticeBox = setTimeout(function() {
+		noticeBox.hide();
+	}, 3000);
 });

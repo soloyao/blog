@@ -13,4 +13,10 @@
     	<select id="getTagsSizeByTagName" resultType="int">
     		select tagSize from tags where tagName = #{tagName}
     	</select>
+    	<select id="findIsExistByTagName" resultType="int">
+    		select IFNULL(max(id), 0) from tags where tagName = #{tagName}
+    	</select>
+    	<insert id="save">
+    		insert into tags(tagName, tagSize) values(#{tagName}, #{tagSize})
+    	</insert>
     </mapper>

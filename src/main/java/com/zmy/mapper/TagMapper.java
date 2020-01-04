@@ -11,4 +11,6 @@ public interface TagMapper {
 	List<Tag> findTagsCloud();
 	int countTagsNum();
 	int getTagsSizeByTagName(String tagName);
+	int findIsExistByTagName(String tagName);
+	void save(Tag tag);
 }

@@ -34,6 +34,10 @@ public class Tag {
 		this.tagName = tagName;
 		this.tagSize = tagSize;
 	}
+	public Tag(String tagName, int tagSize) {
+        this.tagName = tagName;
+        this.tagSize = tagSize;
+    }
 	public Tag() {
 		super();
 	}
