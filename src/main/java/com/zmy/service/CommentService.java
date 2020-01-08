@@ -11,4 +11,5 @@ public interface CommentService {
 	void insertComment(Comment comment);
 	DataMap updateLikeByArticleIdAndId(long articleId, long pId);
 	void deleteCommentByArticleId(long articleId);
+	DataMap replyReplyReturn(Comment comment, String answerer, int answererId, String respondent);
 }

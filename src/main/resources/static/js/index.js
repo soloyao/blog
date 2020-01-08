@@ -190,6 +190,7 @@ function ajaxFirst(currentPage) {
 			}
 		},
 		error: function() {
+			alert("获取文章信息失败");
 		}
 	});
 }

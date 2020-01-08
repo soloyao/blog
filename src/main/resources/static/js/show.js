@@ -142,7 +142,7 @@ function renderComment(data) {
 			item['replies'].map(function(item1, index1) {
 				var visitorReply = $("<div id='p" + item1['id'] + "' class='visitorReply'></div>");
 				var visitorReplyWords = $("<div class='visitorReplyWords'>" +
-						"<a class='answerer'>" + item1['answerer'] + "</a>：<a class='respondent'>@" + item1['respondent'] + "</a>" + item1['commentContent'] + "" +
+						"<a class='answerer' data-answererid='" + item1['answererId'] + "'>" + item1['answerer'] + "</a>：<a class='respondent'>@" + item1['respondent'] + "</a>" + item1['commentContent'] + "" +
 						"</div>");
 				var visitorReplyTime = $("<div class='visitorReplyTime'>" +
 						"<span class='visitorReplyTimeTime'>" + item1['commentDate'] + "</span>" +
@@ -166,7 +166,7 @@ function renderComment(data) {
 			subComment.append($("<div class='reply-sub-comment-list am-animation-slide-bottom'>" +
 					"<div class='replyWord'>" +
 					"<div class='replyWordBtn'>" +
-					"<textare class='replyWordTextarea' placeholder='写下你的评论...'></textarea>" +
+					"<textarea class='replyWordTextarea' placeholder='写下你的评论...'></textarea>" +
 					"<button class='sendReplyWordBtn am-btn am-btn-success'>发送</button>" +
 					"<button class='quitReplyWordBtn am-btn'>取消</button>" +
 					"</div>" +
@@ -179,7 +179,7 @@ function renderComment(data) {
 			var amUSm10 = $("<div class='am-u-sm-10 am-u-lg-11'></div>");
 			var visitorInfo = $("<div class='visitorInfo'>" +
 					"<span class='visitorFloor'>#" + (data.length - index) + "楼</span>" +
-					"<span class='visitorName'>" + item['answerer'] + "</span>" +
+					"<span class='visitorName' data-answererid='" + item['answererId'] + "'>" + item['answerer'] + "</span>" +
 					"<span class='visitorPublishDate'>" + item['commentDate'] + "</span>" +
 					"</div>");
 			var visitorSay = $("<div class='visitorSay'>" + item['commentContent'] + "</div>");
@@ -218,6 +218,7 @@ function renderComment(data) {
 	var replyReply = $(".replyReply");
 	
 	var respondent;
+	var respondentName;
 	//点击回复显示评论框
 	reply.click(function() {
 		var $this = $(this);
@@ -237,7 +238,8 @@ function renderComment(data) {
 					$this.parent().parent().parent().find($('.reply-sub-comment-list')).css("display","block");
 					$this.parent().parent().parent().find($('.reply-sub-comment-list')).find($('.replyWordTextarea')).focus();
 					
-					respondent = $this.parent().parent().prev().prev().find(".visitorName").html();
+					respondentName = $this.parent().parent().prev().prev().find(".visitorName").html();
+					respondent = $this.parent().parent().prev().prev().find(".visitorName").data("answererid");
 				}
 			},
 			error: function() {
@@ -264,7 +266,8 @@ function renderComment(data) {
 					$this.parent().parent().parent().next().css("display","block");
 					$this.parent().parent().parent().next().find($('.replyWordTextarea')).focus();
 					
-					respondent = $this.parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').html();
+					respondentName = $this.parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').html();
+					respondent = $this.parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').data("answererid");
 				}
 			},
 			error: function() {
@@ -287,9 +290,11 @@ function renderComment(data) {
 						window.location.replace("/login");
 					});
 				} else {
-					respondent = $this.parent().parent().prev().find($('.answerer')).html();
+					respondentName = $this.parent().parent().prev().find($('.answerer')).html();
+					respondent = $this.parent().parent().prev().find($('.answerer')).data("answererid");
+					
 					$this.parent().parent().parent().parent().parent().next().css("display","block");
-					$this.parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).val('@' + respondent + ' ');
+					$this.parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).val('@' + respondentName + ' ');
 					$this.parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).focus();
 				}
 			},
@@ -320,7 +325,8 @@ function renderComment(data) {
 					commentContent: replyContent,
 					articleId: articleId,
 					parentId: pId,
-					respondent: respondent
+					respondent: respondent,
+					respondentName: respondentName
 				},
 				success: function(data) {
 					if (data['status'] == 101) {
@@ -333,7 +339,7 @@ function renderComment(data) {
 						var sub_comment = $this.parent().parent().parent().parent();
 						var visitorReply = $("<div id='p" + data['data']['id'] + "' class='visitorReply'></div>");
 						var visitorReplyWords = $("<div class='visitorReplyWords'>" +
-								"<a class='answerer'>" + data['data']['answerer'] + "</a>：<a class='respondent'>@" + data['data']['respondent'] + " </a>" + data['data']['commentContent'] + "" +
+								"<a class='answerer' data-answererid='" + data['data']['answererId'] + "'>" + data['data']['answerer'] + "</a>：<a class='respondent'>@" + data['data']['respondent'] + " </a>" + data['data']['commentContent'] + "" +
 								"</div>");
 						var visitorReplyTime = $("<div class='visitorReplyTime'>" +
 								"<span class='visitorReplyTimeTime'>" + data['data']['commentDate'] + "</span>" +
@@ -358,16 +364,18 @@ function renderComment(data) {
 						
 						//给新加入的评论中的回复和下面的添加新评论添加点击事件
                         $this.parent().parent().parent().parent().find('.visitorReplies>div:last-child').find('.replyReply ').click(function () {
-                            respondent = $(this).parent().parent().prev().find($('.answerer')).html();
+                            respondentName = $(this).parent().parent().prev().find($('.answerer')).html();
+                        	respondent = $(this).parent().parent().prev().find($('.answerer')).data("answererid");
                             $(this).parent().parent().parent().parent().parent().next().css("display","block");
-                            $(this).parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).val('@' + respondent + ' ');
+                            $(this).parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).val('@' + respondentName + ' ');
                             $(this).parent().parent().parent().parent().parent().next().find($('.replyWordTextarea')).focus();
                         });
                         $this.parent().parent().parent().parent().find('.sub-comment-list').find('.more-comment').find('.moreComment').click(function () {
                             $(this).parent().parent().parent().next().find($('.replyWordTextarea')).val('');
                             $(this).parent().parent().parent().next().css("display","block");
 
-                            respondent = $(this).parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').html();
+                            respondentName = $(this).parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').html();
+                            respondent = $(this).parent().parent().parent().parent().parent().find('.visitorInfo').find('.visitorName').data("answererid");
                         });
                         $this.parent().find($('.replyWordTextarea')).val('');
                         $this.parent().parent().parent().css("display","none");

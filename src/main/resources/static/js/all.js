@@ -28,7 +28,7 @@ function getArticleId() {
 //失败消息盒
 function dangerNotice(notice) {
 	$(".dangerNotice").html(notice);
-	$(".dangerNoticeAlert").html(notice);
+	$(".dangerNoticeAlert").css("display", "block");
 	var closeNoticeBox = setTimeout(function() {
 		$(".dangerNoticeAlert").css("display", "none");
 	}, 3000);
@@ -37,7 +37,7 @@ function dangerNotice(notice) {
 //成功消息盒
 function successNotice(notice) {
 	$(".successNotice").html(notice);
-	$(".successNoticeAlert").html(notice);
+	$(".successNoticeAlert").css("display", "block");
 	var closeNoticeBox = setTimeout(function() {
 		$(".successNoticeAlert").css("display", "none");
 	}, 3000);

@@ -10,4 +10,16 @@
     	<select id="countCategoriesNum" resultType="int">
     		select count(*) from categories
     	</select>
+    	<select id="findAllCategories" resultType="Categories">
+    		select id, categoryName from categories
+    	</select>
+    	<select id="findIsExistByCategoryName" resultType="int">
+    		select IFNULL((select id from categories where categoryName = #{categoryName}), 0)
+    	</select>
+    	<insert id="save">
+    		insert into categories(categoryName) values(#{categoryName})
+    	</insert>
+    	<delete id="deleteCategory">
+    		delete from categories where categoryName = #{categoryName}
+    	</delete>
     </mapper>

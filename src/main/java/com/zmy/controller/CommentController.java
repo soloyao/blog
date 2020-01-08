@@ -58,6 +58,39 @@ public class CommentController {
 		return JsonResult.build(data).toJSON();
 	}
 	
+	@PostMapping("/publishReply")
+	public String publishReply(Comment comment,
+			@RequestParam("parentId") String parentId,
+			@RequestParam("respondent") String respondent,
+			@RequestParam("respondentName") String respondentName) {
+		Subject subject = SecurityUtils.getSubject();
+		String phone = (String) subject.getPrincipal();
+		String username = userService.findUsernameByPhone(phone);
+		int answererId = userService.findIdByPhone(phone);
+		
+		comment.setpId(Long.parseLong(parentId.substring(1)));
+		comment.setAnswererId(userService.findIdByPhone(phone));
+		comment.setRespondentId(Integer.parseInt(respondent));
+		comment.setCommentDate(TimeUtil.getFormatDateForFive());
+		String commentContent = comment.getCommentContent();
+		//去掉评论中的@who
+		if ('@' == commentContent.charAt(0)) {
+			comment.setCommentContent(commentContent.substring(respondentName.length() + 1).trim());
+		} else {
+			comment.setCommentContent(commentContent.trim());
+		}
+		//判断用户输入内容是否为空字符串
+		if ("".equals(comment.getCommentContent())) {
+			return JsonResult.fail(CodeType.COMMENT_BLANK).toJSON();
+		} else {
+			//防止xss攻击
+			comment.setCommentContent(JavaScriptCheck.javaScriptCheck(comment.getCommentContent()));
+			commentService.insertComment(comment);
+		}
+		DataMap data = commentService.replyReplyReturn(comment, username, answererId, respondentName);
+		return JsonResult.build(data).toJSON();
+	}
+	
 	@GetMapping("/addCommentLike")
 	public String addCommentLike(@RequestParam("articleId") String articleId,
 			@RequestParam("respondentId") String respondentId) {

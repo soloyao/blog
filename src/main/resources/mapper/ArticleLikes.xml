@@ -15,4 +15,16 @@
     	<delete id="deleteArticleLikesRecordByArticleId">
     		delete from article_likes_record where articleId = #{articleId}
     	</delete>
+    	<select id="getArticleThumbsUp" resultType="ArticleLikesRecord">
+    		select * from article_likes_record order by id desc
+    	</select>
+    	<select id="countIsReadNum" resultType="int">
+    		select count(*) from article_likes_record where isRead = 1
+    	</select>
+    	<update id="readThisThumbsUp">
+    		update article_likes_record set isRead = 0 where id = #{id}
+    	</update>
+    	<update id="readAllThumbsUp">
+    		update article_likes_record set isRead = 0
+    	</update>
     </mapper>

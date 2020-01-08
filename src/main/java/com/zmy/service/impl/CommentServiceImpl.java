@@ -83,6 +83,7 @@ public class CommentServiceImpl implements CommentService {
 			for (Comment reply : replyLists) {
 				replyJsonObject = new JSONObject();
 				replyJsonObject.put("id", reply.getId());
+				replyJsonObject.put("answererId", reply.getAnswererId());
 				replyJsonObject.put("answerer", userService.findUsernameById(reply.getAnswererId()));
 				replyJsonObject.put("commentDate", reply.getCommentDate());
 				replyJsonObject.put("commentContent", reply.getCommentContent());
@@ -92,6 +93,7 @@ public class CommentServiceImpl implements CommentService {
 			
 			//封装评论
 			commentJsonObject.put("id", comment.getId());
+			commentJsonObject.put("answererId", comment.getAnswererId());
 			commentJsonObject.put("answerer", userService.findUsernameById(comment.getAnswererId()));
 			commentJsonObject.put("commentDate", comment.getCommentDate());
 			commentJsonObject.put("likes", comment.getLikes());
@@ -131,6 +133,18 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteCommentByArticleId(long articleId) {
 		commentMapper.deleteCommentByArticleId(articleId);
+	}
+
+	@Override
+	public DataMap replyReplyReturn(Comment comment, String answerer, int answererId, String respondent) {
+		JSONObject json = new JSONObject();
+		json.put("id", comment.getId());
+		json.put("answerer", answerer);
+		json.put("answererId", answererId);
+		json.put("respondent", respondent);
+		json.put("commentContent", comment.getCommentContent());
+		json.put("commentDate", comment.getCommentDate());
+		return DataMap.success().setData(json);
 	}
 
 }
