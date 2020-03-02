@@ -20,6 +20,7 @@ function getUrlParam(paraName) {
 //获取文章后的文章ID
 function getArticleId() {
 	var url = document.location.toString();
+	console.log(url);
 	var arrObj = url.split("article");
 	var articleId = arrObj[1].split("/")[1];
 	return articleId;
